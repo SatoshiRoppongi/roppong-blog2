@@ -41,7 +41,7 @@ const handleSelect = (key: string, keyPath: string[]) => {}
             <NuxtLink to="/blog" tag="div" class="c-p">Home</NuxtLink>
         </el-menu-item>
         <el-menu-item v-for="cat in categoryTitleList" :key="cat.slug" :index="cat.slug">
-            <NuxtLink :to="'/blog/'+cat.slug" class="c-p">
+            <NuxtLink :to="'/blog/category/'+cat.slug" class="c-p">
                 {{ cat.title }}
             </NuxtLink>
         </el-menu-item>
