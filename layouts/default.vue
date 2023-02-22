@@ -1,18 +1,18 @@
 <template>
     <div class="common-layout">
         <el-container>
-            <el-header>
+            <el-header height="150px">
                 <h1>roppong blog</h1>
-                <navbar />
+                <Navbar />
             </el-header>
             <el-container>
-                <el-aside width="200px">Aside</el-aside>
                 <el-container>
                     <el-main>
                         <slot />
                     </el-main>
                     <el-footer>footer</el-footer>
                 </el-container>
+                <el-aside width="200px"> aside </el-aside>
             </el-container>
         </el-container>
     </div>
