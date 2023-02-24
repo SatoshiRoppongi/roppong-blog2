@@ -1,6 +1,6 @@
 import { EntryCollection } from 'contentful'
 import {defineStore} from 'pinia'
-import { ICategoryFields } from '~~/@types/generated/contentful'
+import { IBlogPostFields, ICategoryFields } from '~~/@types/generated/contentful'
 
 type CategoryTitleList = {
     title: string,
@@ -11,12 +11,17 @@ export const useContentfulStore = defineStore('contents', () => {
     /**
      * State
      */
-    const store = reactive<{ 'categories': EntryCollection<ICategoryFields> | null}>({
+    const store = reactive<{
+        'posts': EntryCollection<IBlogPostFields> | null
+        'categories': EntryCollection<ICategoryFields> | null
+    }>({
+        'posts': null,
         'categories' : null,
     })
     /**
      * Getters
      */
+
     const categoryTitleList: ComputedRef<CategoryTitleList> = computed(() => {
         if (store.categories === null) {
             return [];
@@ -29,9 +34,18 @@ export const useContentfulStore = defineStore('contents', () => {
      * Actions
      * contentfulからのデータを取得する
      */
+    const { $contentfulClient } = useNuxtApp()
+    const getPosts = async () => {
+        const posts = await $contentfulClient.getEntries<IBlogPostFields>({
+            content_type: process.env.CTF_BLOG_POST_TYPE_ID,
+            order: '-sys.createdAt',
+        })
+        console.log('test')
+        console.log(posts)
+        store.posts = posts
+    }
 
     const getCategories = async () => {
-        const { $contentfulClient } = useNuxtApp()
         const categories = await $contentfulClient.getEntries<ICategoryFields>({
             content_type: 'category',
             order: '-sys.createdAt',
@@ -39,7 +53,7 @@ export const useContentfulStore = defineStore('contents', () => {
         store.categories = categories
     }
 
-    return { store, getCategories, categoryTitleList }
+    return { store, categoryTitleList, getPosts, getCategories }
 
     
 })
