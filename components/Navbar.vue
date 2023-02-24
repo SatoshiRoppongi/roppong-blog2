@@ -2,29 +2,20 @@
 import { Entry, EntryCollection } from 'contentful';
 import { createAdapter } from 'contentful-management/dist/typings/create-adapter';
 import { ICategory, ICategoryFields } from '~~/@types/generated/contentful';
+import { useContentfulStore } from '~~/stores/contentful';
 
 
-type CategoryTitle = {
-    title: string,
-    slug: string,
-}
 
-
-const { $contentfulClient } = useNuxtApp()
-const categories = await $contentfulClient.getEntries<ICategoryFields>({
-    content_type: 'category',
-    order: '-sys.createdAt',
-})
+const { categoryTitleList } = useContentfulStore()
 
 const route = useRoute()
 
 console.log('routeroute')
 console.log(route.path)
 
-const activeIndex = route.path.split('/')[2] || 'blog'
+const activeIndex = route.path.split('/')[3] || 'blog'
 
 // todo: 順番を並び替える
-const categoryTitleList: CategoryTitle[] = categories.items.map((cat) => { return { title: cat.fields.title, slug: cat.fields.slug } })
 
 const handleSelect = (key: string, keyPath: string[]) => {}
 
