@@ -7,6 +7,12 @@ type CategoryTitleList = {
     slug: string,
 }[]
 
+type PostTitleList = {
+    title?: string,
+    slug?: string,
+    createdAt?: string 
+}[]
+
 export const useContentfulStore = defineStore('contents', () => {
     /**
      * State
@@ -29,6 +35,26 @@ export const useContentfulStore = defineStore('contents', () => {
             return store.categories?.items.map((category) => { return { title: category.fields.title, slug: category.fields.slug } })
         }
     })
+
+    const getPostSummaries: ComputedRef<PostTitleList> = computed(() => {
+        if (store.posts === null) {
+            return [];
+        } else {
+            return store.posts?.items.map((post) => {
+                return {
+                    title: post.fields.title,
+                    slug: post.fields.slug,
+                    createdAt: post.sys.createdAt
+                }
+            })
+        }
+    })
+
+    const getSummeryInfo = (groupType: string, length?: number) => {
+        if (groupType === 'recent') {
+            return getPostSummaries.value.slice(0, length);
+        }
+    }
 
     /**
      * Actions
@@ -53,7 +79,7 @@ export const useContentfulStore = defineStore('contents', () => {
         store.categories = categories
     }
 
-    return { store, categoryTitleList, getPosts, getCategories }
+    return { store, categoryTitleList, getPosts, getCategories, getSummeryInfo }
 
     
 })

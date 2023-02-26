@@ -19,7 +19,9 @@ const h1Text = !categoryTitle.length ? '新着記事一覧' : `${categoryTitle[0
         <div class="h1Text">
             {{ h1Text }}
         </div>
-        {{ store.posts }}
+        <div v-for="i in 10" :key="i">
+            <ArticleCard />
+        </div>
         <div class="pagination-block">
             <el-pagination layout="prev, pager, next" :total="1000" />
         </div>

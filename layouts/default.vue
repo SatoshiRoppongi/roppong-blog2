@@ -12,7 +12,9 @@
                     </el-main>
                     <el-footer>footer</el-footer>
                 </el-container>
-                <el-aside width="200px"> aside </el-aside>
+                <el-aside width="200px"> 
+                    <Sidebar />
+                </el-aside>
             </el-container>
         </el-container>
     </div>
