@@ -1,13 +1,16 @@
 <script setup lang="ts">
+import { CONTENT_TYPE } from "~~/@types/generated/contentful"
 import { useContentfulStore } from "~~/stores/contentful"
+import { GroupType } from "./Sidebar.vue"
 
 const props = defineProps<{
-    groupType: string
+    groupType: GroupType
     groupName: string
+    contentType: CONTENT_TYPE
     length?: number
 }>()
 
-const { getSummeryInfo } = useContentfulStore()
+const { getContentsSummaries } = useContentfulStore()
 
 </script>
 <template>
@@ -17,7 +20,7 @@ const { getSummeryInfo } = useContentfulStore()
                 <span> {{ groupName }}</span>
             </div>
         </template>
-        <div v-for="(info, index) in getSummeryInfo(groupType, length)" :key="index">
+        <div v-for="(info, index) in getContentsSummaries(contentType, length)" :key="index">
             <NuxtLink :to="`/blog/${info.slug}`">
             {{ info.title }}
             </NuxtLink>

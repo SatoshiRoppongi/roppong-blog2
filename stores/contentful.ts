@@ -1,85 +1,73 @@
 import { EntryCollection } from 'contentful'
 import {defineStore} from 'pinia'
-import { IBlogPostFields, ICategoryFields } from '~~/@types/generated/contentful'
+import { CONTENT_TYPE, IBlogPostFields, ICategoryFields } from '~~/@types/generated/contentful'
 
-type CategoryTitleList = {
+export type EntryTitleList = {
     title: string,
     slug: string,
+    createdAt: string
 }[]
-
-type PostTitleList = {
-    title?: string,
-    slug?: string,
-    createdAt?: string 
-}[]
+type Contents<T> = {
+[K in CONTENT_TYPE]: EntryCollection<T> | null
+};
 
 export const useContentfulStore = defineStore('contents', () => {
     /**
      * State
      */
-    const store = reactive<{
-        'posts': EntryCollection<IBlogPostFields> | null
-        'categories': EntryCollection<ICategoryFields> | null
-    }>({
-        'posts': null,
-        'categories' : null,
-    })
+
+    const store = reactive<Contents<IBlogPostFields|ICategoryFields>>({
+        // todo: もっと簡潔に書けないか
+    blogPost: null,
+    blogPostImage: null,
+    category: null,
+    generalPage: null,
+    layout: null,
+    layoutCopy: null,
+    layoutHeroImage: null,
+    layoutHighlightedCourse: null,
+    lesson: null,
+    lessonCodeSnippets: null,
+    lessonCopy: null,
+    lessonImage: null
+})
     /**
      * Getters
      */
 
-    const categoryTitleList: ComputedRef<CategoryTitleList> = computed(() => {
-        if (store.categories === null) {
-            return [];
-        } else {
-            return store.categories?.items.map((category) => { return { title: category.fields.title, slug: category.fields.slug } })
-        }
-    })
+    // todo: 以下getterは共通化可能。共通化する　
 
-    const getPostSummaries: ComputedRef<PostTitleList> = computed(() => {
-        if (store.posts === null) {
+    const getContentsSummaries = computed(() => (contentType: CONTENT_TYPE, length?: number) => {
+        const key: keyof Contents<IBlogPostFields | ICategoryFields> = contentType
+        if (store[key] === null) {
             return [];
         } else {
-            return store.posts?.items.map((post) => {
+            return store[contentType]?.items.map((entry) => {
                 return {
-                    title: post.fields.title,
-                    slug: post.fields.slug,
-                    createdAt: post.sys.createdAt
+                    title: entry.fields.title,
+                    slug: entry.fields.slug,
+                    createdAt: entry.sys.createdAt
                 }
-            })
+            }).slice(0, length)
         }
     })
 
-    const getSummeryInfo = (groupType: string, length?: number) => {
-        if (groupType === 'recent') {
-            return getPostSummaries.value.slice(0, length);
-        }
-    }
 
     /**
      * Actions
      * contentfulからのデータを取得する
      */
     const { $contentfulClient } = useNuxtApp()
-    const getPosts = async () => {
-        const posts = await $contentfulClient.getEntries<IBlogPostFields>({
-            content_type: process.env.CTF_BLOG_POST_TYPE_ID,
+    const getContents = async (contentType: CONTENT_TYPE) => {
+        const entries = await $contentfulClient.getEntries<IBlogPostFields|ICategoryFields>({
+            content_type: contentType,
             order: '-sys.createdAt',
         })
-        console.log('test')
-        console.log(posts)
-        store.posts = posts
+
+        store[contentType] = entries
     }
 
-    const getCategories = async () => {
-        const categories = await $contentfulClient.getEntries<ICategoryFields>({
-            content_type: 'category',
-            order: '-sys.createdAt',
-        })
-        store.categories = categories
-    }
-
-    return { store, categoryTitleList, getPosts, getCategories, getSummeryInfo }
+    return { store, getContentsSummaries, getContents }
 
     
 })

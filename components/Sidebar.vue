@@ -1,8 +1,11 @@
 <script setup lang="ts">
-type GroupType = 'recent' | 'category' | 'archive'
+import { CONTENT_TYPE } from "~~/@types/generated/contentful";
+
+export type GroupType = 'recent' | 'category' | 'archive'
 interface GroupInfo {
     groupType: GroupType;
     groupName: string;
+    contentType: CONTENT_TYPE
     length?: number; // 表示件数
 }
 
@@ -10,16 +13,19 @@ const groupInfo: GroupInfo[] = reactive([
     {
         groupType: 'recent',
         groupName: '最近の投稿',
+        contentType: 'blogPost',
         length: 5
 
     },
     {
         groupType: 'category',
         groupName: 'カテゴリ',
+        contentType: 'category'
     },
     {
         groupType: 'archive',
-        groupName: 'アーカイブ'
+        groupName: 'アーカイブ',
+        contentType: 'blogPost'
     },
 ]);
 
@@ -27,6 +33,6 @@ const groupInfo: GroupInfo[] = reactive([
 <template>
     <ProfileCard />
     <div v-for="(group, index) in groupInfo" :key="index">
-        <MenuCard :groupType="group.groupType" :groupName="group.groupName" :length="group.length"/>
+        <MenuCard :groupType="group.groupType" :groupName="group.groupName" :contentType="group.contentType" :length="group.length"/>
     </div>
 </template>

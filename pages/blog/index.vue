@@ -1,17 +1,20 @@
 <script setup lang="ts">
+import { ContentType } from "contentful"
+import { CONTENT_TYPE } from "~~/@types/generated/contentful"
 import { useContentfulStore } from "~~/stores/contentful"
 
 
-const { categoryTitleList, store} = useContentfulStore()
-console.log(store.posts)
+const { getContentsSummaries, store} = useContentfulStore()
 
-console.log(categoryTitleList)
 const route = useRoute()
 const currentPage =  route.path.split('/')[3] || 'blog'
 
-const categoryTitle = categoryTitleList.filter((category) => category.slug === currentPage)
+const contentType: CONTENT_TYPE = 'category'
+
+
+const categoryTitle = getContentsSummaries(contentType)?.filter((category) => category.slug === currentPage)
 // todo: アーカイブも実装する ** の投稿
-const h1Text = !categoryTitle.length ? '新着記事一覧' : `${categoryTitle[0].title}に関する記事`
+const h1Text = !categoryTitle?.length ? '新着記事一覧' : `${categoryTitle[0].title}に関する記事`
 
 </script>
 <template>

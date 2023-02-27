@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { Entry, EntryCollection } from 'contentful';
 import { createAdapter } from 'contentful-management/dist/typings/create-adapter';
-import { ICategory, ICategoryFields } from '~~/@types/generated/contentful';
+import { CONTENT_TYPE, ICategory, ICategoryFields } from '~~/@types/generated/contentful';
 import { useContentfulStore } from '~~/stores/contentful';
 
 
 
-const { categoryTitleList } = useContentfulStore()
+const { getContentsSummaries } = useContentfulStore()
 
 const route = useRoute()
 
@@ -31,7 +31,7 @@ const handleSelect = (key: string, keyPath: string[]) => {}
         <el-menu-item index="blog">
             <NuxtLink to="/blog" tag="div" class="c-p">Home</NuxtLink>
         </el-menu-item>
-        <el-menu-item v-for="cat in categoryTitleList" :key="cat.slug" :index="cat.slug">
+        <el-menu-item v-for="cat in getContentsSummaries('category')" :key="cat.slug" :index="cat.slug">
             <NuxtLink :to="'/blog/category/'+cat.slug" class="c-p">
                 {{ cat.title }}
             </NuxtLink>
