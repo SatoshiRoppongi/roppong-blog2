@@ -53,9 +53,10 @@ export const useContentfulStore = defineStore('contents', () => {
         }).slice(0, length)
     })
 
-    // below code is not works
-    const numOfCategory = computed(() => (category: string | undefined) => {
-        return store.blogPost?.items.filter((obj: any) => { obj.fields.category?.fields.slug === category }).length || 0
+    const numOfCategory = computed(() => (categoryString: string | undefined) => {
+        return store.blogPost?.items.filter((obj: Entry<IBlogPostFields>) => {
+           return obj.fields.category?.fields.slug === categoryString
+        }).length || 0
     })
 
     // サイドバーのアーカイブで利用
