@@ -8,7 +8,10 @@ export default <RouterOptions> {
     return [..._routes, {
       path: '/blog/category/:slug',
       component: () => import('~/pages/blog/index.vue')
-    },
+    }, {
+      path: '/blog/archive/:slug',
+      component: () => import('~/pages/blog/index.vue')
+    }
     ];
   }
 }

@@ -10,9 +10,6 @@ const { getContentsSummaries } = useContentfulStore()
 
 const route = useRoute()
 
-console.log('routeroute')
-console.log(route.path)
-
 const activeIndex = route.path.split('/')[3] || 'blog'
 
 // todo: 順番を並び替える
@@ -32,7 +29,7 @@ const handleSelect = (key: string, keyPath: string[]) => {}
             <NuxtLink to="/blog" tag="div" class="c-p">Home</NuxtLink>
         </el-menu-item>
         <el-menu-item v-for="cat in getContentsSummaries('category')" :key="cat.slug" :index="cat.slug">
-            <NuxtLink :to="'/blog/category/'+cat.slug" class="c-p">
+            <NuxtLink :to="`/blog/category/${cat.slug}`" class="c-p">
                 {{ cat.title }}
             </NuxtLink>
         </el-menu-item>

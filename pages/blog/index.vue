@@ -4,17 +4,23 @@ import { CONTENT_TYPE } from "~~/@types/generated/contentful"
 import { useContentfulStore } from "~~/stores/contentful"
 
 
-const { getContentsSummaries, store} = useContentfulStore()
+const { getContentsSummaries, groupByYearMonth, store} = useContentfulStore()
 
 const route = useRoute()
-const currentPage =  route.path.split('/')[3] || 'blog'
+
+const pathParts = route.path.split('/')
+const groupType = pathParts[2] // archive or category
+const currentPage = pathParts[3] || 'blog'
 
 const contentType: CONTENT_TYPE = 'category'
 
 
-const categoryTitle = getContentsSummaries(contentType)?.filter((category) => category.slug === currentPage)
-// todo: アーカイブも実装する ** の投稿
-const h1Text = !categoryTitle?.length ? '新着記事一覧' : `${categoryTitle[0].title}に関する記事`
+// categoryを表示するときはarchive, archiveを表示するときはcategoryのタイトルは取得する必要がないので、下記一方は無駄な計算。
+// todo: 無駄な計算をしないように修正する
+const categoryTitle = getContentsSummaries(contentType)?.filter((category) => category.slug === currentPage) 
+const yyyymmTitle = groupByYearMonth('blogPost').filter((yyyymm) => yyyymm.slug === currentPage)
+const h1Text = groupType === 'category' ? `${categoryTitle && categoryTitle[0].title}に関する記事` :
+    groupType === 'archive' ? `${yyyymmTitle && yyyymmTitle[0].title}の投稿` : '新着記事一覧'
 
 </script>
 <template>
