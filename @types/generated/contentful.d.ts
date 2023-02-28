@@ -87,7 +87,7 @@ export interface ICategoryFields {
   definition: string;
 }
 
-/** Categories can be applied to Courses and Lessons. Assigning Multiple categories is also possible. */
+/** Categories and Lessons. Assigning Multiple categories is also possible. */
 
 export interface ICategory extends Entry<ICategoryFields> {
   sys: {

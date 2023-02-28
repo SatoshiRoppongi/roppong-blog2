@@ -10,7 +10,14 @@ const props = defineProps<{
     length?: number
 }>()
 
-const { getContentsSummaries } = useContentfulStore()
+const slugBase = computed(() => {
+    return props.groupType === 'recent' ? "/blog/" : `/blog/${props.groupType}/`
+
+})
+
+const { getContentsSummaries, groupByYearMonth} = useContentfulStore()
+
+const useFunction = props.groupType === 'archive' ? groupByYearMonth:  getContentsSummaries
 
 </script>
 <template>
@@ -20,9 +27,9 @@ const { getContentsSummaries } = useContentfulStore()
                 <span> {{ groupName }}</span>
             </div>
         </template>
-        <div v-for="(info, index) in getContentsSummaries(contentType, length)" :key="index">
-            <NuxtLink :to="`/blog/${info.slug}`">
-            {{ info.title }}
+        <div v-for="(info, index) in useFunction(contentType, length)" :key="index">
+            <NuxtLink :to="`${slugBase}${info.slug}`">
+            {{ info.title }} {{ info.count }}
             </NuxtLink>
         </div>
     </el-card>
