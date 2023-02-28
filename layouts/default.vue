@@ -5,7 +5,7 @@
                 <h1>roppong blog</h1>
                 <Navbar />
             </el-header>
-            <el-container>
+            <el-container class="main">
                 <el-container>
                     <el-main>
                         <slot />
@@ -19,3 +19,9 @@
         </el-container>
     </div>
 </template>
+<style scoped>
+.main {
+    margin-left: 150px;
+    margin-right: 150px;
+}
+</style>
