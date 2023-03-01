@@ -10,17 +10,38 @@ const route = useRoute()
 
 const pathParts = route.path.split('/')
 const groupType = pathParts[2] // archive or category
-const currentPage = pathParts[3] || 'blog'
+const currentSlug = pathParts[3] || 'blog'
 
 const contentType: CONTENT_TYPE = 'category'
 
 
 // categoryを表示するときはarchive, archiveを表示するときはcategoryのタイトルは取得する必要がないので、下記一方は無駄な計算。
 // todo: 無駄な計算をしないように修正する
-const categoryTitle = getContentsSummaries(contentType)?.filter((category) => category.slug === currentPage) 
-const yyyymmTitle = groupByYearMonth('blogPost').filter((yyyymm) => yyyymm.slug === currentPage)
+const categoryTitle = getContentsSummaries(contentType)?.filter((category) => category.slug === currentSlug) 
+const yyyymmTitle = groupByYearMonth('blogPost').filter((yyyymm) => yyyymm.slug === currentSlug)
 const h1Text = groupType === 'category' ? `${categoryTitle && categoryTitle[0].title}に関する記事` :
     groupType === 'archive' ? `${yyyymmTitle && yyyymmTitle[0].title}の投稿` : '新着記事一覧'
+
+const blogPost = store.blogPost
+
+const perPage = 10 // 1ページあたりに表示する記事の数
+const lastSlug = pathParts.slice(-2)[1] 
+const beforeLastSlug = pathParts.slice(-2)[0]
+// const currentPage = beforeLastSlug == 'page' && !isNaN(parseInt(lastSlug)) ? parseInt(lastSlug) : 1 // 現在のページ数を取得する。（正確ではない気がする)
+const currentPage:Ref<number> = ref(2);
+console.log('currentPage')
+console.log(currentPage)
+
+const changePage = (toPage: number) => {
+    // この関数が何故か呼ばれない。原因を調査する。下記が関係している？
+    // https://stackoverflow.com/questions/68956130/current-page-currentpage-attribute-from-el-pagination-in-element-plus-is-not-wor
+    console.log('pagepage')
+    console.log(toPage)
+    return navigateTo({
+        path:  `${route.path}/page/${toPage}`
+    })
+}
+
 
 </script>
 <template>
@@ -28,11 +49,11 @@ const h1Text = groupType === 'category' ? `${categoryTitle && categoryTitle[0].t
         <div class="h1Text">
             {{ h1Text }}
         </div>
-        <div v-for="i in 10" :key="i">
+        <div v-for="i in blogPost?.total" :key="i">
             <ArticleCard />
         </div>
         <div class="pagination-block">
-            <el-pagination layout="prev, pager, next" :total="1000" />
+            <el-pagination layout="prev, pager, next" :page-size="perPage" :total="blogPost?.total" :current-page="currentPage" @current-change="changePage"/>
         </div>
     </div>
 </template>
