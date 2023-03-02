@@ -1,4 +1,5 @@
 import { processExpression } from "@vue/compiler-core";
+// import elementPlus from "./plugins/elementPlus";
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -15,5 +16,6 @@ export default defineNuxtConfig({
     },
     modules: [
         '@pinia/nuxt',
+        '@element-plus/nuxt'
     ],
 })

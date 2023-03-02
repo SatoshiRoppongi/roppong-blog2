@@ -18,7 +18,7 @@ export default <RouterOptions> {
       component: () => import('~/pages/blog/index.vue')
     },
       {
-      path: '/blog/:slug/:slug/page/:slug',
+      path: '/blog/:group/:subgroup/page/:number',
       component: () => import('~/pages/blog/index.vue')
     }
     ];

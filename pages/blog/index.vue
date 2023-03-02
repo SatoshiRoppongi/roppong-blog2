@@ -2,6 +2,14 @@
 import { ContentType } from "contentful"
 import { CONTENT_TYPE } from "~~/@types/generated/contentful"
 import { useContentfulStore } from "~~/stores/contentful"
+/*
+import { ID_INJECTION_KEY } from "element-plus";
+
+provide(ID_INJECTION_KEY, {
+    prefix: 200,
+    current: 0
+})
+*/
 
 
 const { getContentsSummaries, groupByYearMonth, store} = useContentfulStore()
@@ -24,25 +32,48 @@ const h1Text = groupType === 'category' ? `${categoryTitle && categoryTitle[0].t
 
 const blogPost = store.blogPost
 
-const perPage = 10 // 1ページあたりに表示する記事の数
+const pageSize = ref(10) // 1ページあたりに表示する記事の数
 const lastSlug = pathParts.slice(-2)[1] 
 const beforeLastSlug = pathParts.slice(-2)[0]
 // const currentPage = beforeLastSlug == 'page' && !isNaN(parseInt(lastSlug)) ? parseInt(lastSlug) : 1 // 現在のページ数を取得する。（正確ではない気がする)
-const currentPage:Ref<number> = ref(2);
-console.log('currentPage')
-console.log(currentPage)
+const currentPage = ref(1)
 
-const changePage = (toPage: number) => {
+function handleCurrentChanged(val: number) {
     // この関数が何故か呼ばれない。原因を調査する。下記が関係している？
     // https://stackoverflow.com/questions/68956130/current-page-currentpage-attribute-from-el-pagination-in-element-plus-is-not-wor
     console.log('pagepage')
-    console.log(toPage)
+    console.log(val)
+    currentPage.value = val
+    /*
     return navigateTo({
         path:  `${route.path}/page/${toPage}`
     })
+    */
+}
+
+function handlePageSizeChanged(val: number) {
+    pageSize.value = val
 }
 
 
+/*
+watchEffect(() => {
+    console.log('testsetest')
+    console.log(currentPage)
+
+})
+*/
+
+/*
+watch([() => currentPage], ([nPage], [oPage]) => {
+    console.log('bbbbbbbb')
+    console.log(nPage)
+    console.log(oPage)
+    if (nPage !== oPage) {
+        console.log('aaaaaaaaaaaaaa')
+    }
+})
+*/
 </script>
 <template>
     <div>
@@ -52,9 +83,16 @@ const changePage = (toPage: number) => {
         <div v-for="i in blogPost?.total" :key="i">
             <ArticleCard />
         </div>
-        <div class="pagination-block">
-            <el-pagination layout="prev, pager, next" :page-size="perPage" :total="blogPost?.total" :current-page="currentPage" @current-change="changePage"/>
-        </div>
+        <!-- <div class="pagination-block"> -->
+            <el-pagination 
+                layout="prev, pager, next"
+                :total="blogPost?.total"
+                :page-size="10"
+                :current-page="currentPage"
+                @update:current-page="handleCurrentChanged"
+            />
+            {{ currentPage }}
+        <!-- </div> -->
     </div>
 </template>
 <style scoped>
@@ -63,9 +101,11 @@ const changePage = (toPage: number) => {
     text-align: center;
 }
 
+/*
 .pagination-block {
     margin: 0 auto;
     width: 200px
 
 }
+*/
 </style>

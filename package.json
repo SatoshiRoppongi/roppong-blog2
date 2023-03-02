@@ -16,13 +16,14 @@
     "vue-tsc": "^1.0.24"
   },
   "dependencies": {
+    "@element-plus/nuxt": "^1.0.3",
     "@element-plus/theme-chalk": "^2.2.16",
     "@pinia/nuxt": "^0.4.7",
     "contentful": "^9.3.3",
     "contentful-management": "^10.30.0",
     "contentful-typescript-codegen": "^3.4.0",
     "dotenv": "^16.0.3",
-    "element-plus": "^2.2.30",
+    "element-plus": "^2.2.32",
     "pinia": "^2.0.32",
     "prettier": "^2.8.4",
     "sass": "^1.58.1",
