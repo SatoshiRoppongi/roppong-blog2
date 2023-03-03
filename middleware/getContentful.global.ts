@@ -1,5 +1,3 @@
-import { getComponentSize } from "element-plus/es/utils";
-import { getTokenSourceMapRange } from "typescript";
 import { useContentfulStore } from "~/stores/contentful";
 import { CONTENT_TYPE } from "~~/@types/generated/contentful";
 

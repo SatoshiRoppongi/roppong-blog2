@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "@element-plus/nuxt": "^1.0.3",
-    "@element-plus/theme-chalk": "^2.2.16",
+    "@nuxtjs/dotenv": "^1.4.1",
     "@pinia/nuxt": "^0.4.7",
     "contentful": "^9.3.3",
     "contentful-management": "^10.30.0",

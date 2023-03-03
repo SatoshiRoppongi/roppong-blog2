@@ -1,16 +1,6 @@
 <script setup lang="ts">
-import { ContentType } from "contentful"
 import { CONTENT_TYPE } from "~~/@types/generated/contentful"
 import { useContentfulStore } from "~~/stores/contentful"
-/*
-import { ID_INJECTION_KEY } from "element-plus";
-
-provide(ID_INJECTION_KEY, {
-    prefix: 200,
-    current: 0
-})
-*/
-
 
 const { getContentsSummaries, groupByYearMonth, store} = useContentfulStore()
 
@@ -35,45 +25,34 @@ const blogPost = store.blogPost
 const pageSize = ref(10) // 1ページあたりに表示する記事の数
 const lastSlug = pathParts.slice(-2)[1] 
 const beforeLastSlug = pathParts.slice(-2)[0]
-// const currentPage = beforeLastSlug == 'page' && !isNaN(parseInt(lastSlug)) ? parseInt(lastSlug) : 1 // 現在のページ数を取得する。（正確ではない気がする)
-const currentPage = ref(1)
+const currentPage = ref(beforeLastSlug == 'page' && !isNaN(parseInt(lastSlug)) ? parseInt(lastSlug) : 1) // 現在のページ数を取得する。（正確ではない気がする)
+// const currentPage = ref(1)
 
-function handleCurrentChanged(val: number) {
-    // この関数が何故か呼ばれない。原因を調査する。下記が関係している？
-    // https://stackoverflow.com/questions/68956130/current-page-currentpage-attribute-from-el-pagination-in-element-plus-is-not-wor
-    console.log('pagepage')
-    console.log(val)
-    currentPage.value = val
-    /*
-    return navigateTo({
-        path:  `${route.path}/page/${toPage}`
-    })
-    */
-}
+function updateCurrentPage(val: number) {
 
-function handlePageSizeChanged(val: number) {
-    pageSize.value = val
-}
+    let pathStr: string = ""
 
-
-/*
-watchEffect(() => {
-    console.log('testsetest')
-    console.log(currentPage)
-
-})
-*/
-
-/*
-watch([() => currentPage], ([nPage], [oPage]) => {
-    console.log('bbbbbbbb')
-    console.log(nPage)
-    console.log(oPage)
-    if (nPage !== oPage) {
-        console.log('aaaaaaaaaaaaaa')
+    if (val === 1) {
+        // 1ページ目だったら、/page/* を取り除く
+        pathStr = pathParts.slice(0, -2).join('/')
+    } else {
+        // slugに 'page' を含む場合は、
+        const pIndex = pathParts.findIndex(str => str === 'page')
+        if (pIndex === -1) {
+            // slug に 'page' を含まない場合は、1ページ目なので、単純に、page/* を付け加える
+            pathStr = `${pathParts.join('/')}/page/${val}`
+        } else {
+            // slugに 'page' を含む場合は、page/* を取り除いて、/page/* を付け加える
+            // pathStr = `${pathParts.slice(0, pIndex + 1).join('/')}/${val}` でもいいかも
+            pathStr = `${pathParts.slice(0, pIndex).join('/')}/page/${val}`
+        }
     }
-})
-*/
+
+    return navigateTo({
+        path:  `${pathStr}`
+    })
+}
+
 </script>
 <template>
     <div>
@@ -83,16 +62,15 @@ watch([() => currentPage], ([nPage], [oPage]) => {
         <div v-for="i in blogPost?.total" :key="i">
             <ArticleCard />
         </div>
-        <!-- <div class="pagination-block"> -->
+        <div class="pagination-block">
             <el-pagination 
                 layout="prev, pager, next"
-                :total="blogPost?.total"
-                :page-size="10"
+                :total="blogPost?.total || 1"
                 :current-page="currentPage"
-                @update:current-page="handleCurrentChanged"
+                @update:current-page="updateCurrentPage"
+                background
             />
-            {{ currentPage }}
-        <!-- </div> -->
+        </div>
     </div>
 </template>
 <style scoped>
@@ -100,12 +78,9 @@ watch([() => currentPage], ([nPage], [oPage]) => {
 .h1Text {
     text-align: center;
 }
-
-/*
 .pagination-block {
     margin: 0 auto;
     width: 200px
 
 }
-*/
 </style>

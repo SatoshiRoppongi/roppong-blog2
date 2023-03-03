@@ -1,5 +1,4 @@
 import { Entry, EntryCollection } from 'contentful'
-import store from 'element-plus/es/components/table/src/store'
 import {defineStore} from 'pinia'
 import { CONTENT_TYPE, IBlogPost, IBlogPostFields, ICategory, ICategoryFields } from '~~/@types/generated/contentful'
 
