@@ -2,7 +2,8 @@
 import { CONTENT_TYPE } from "~~/@types/generated/contentful"
 import { useContentfulStore } from "~~/stores/contentful"
 
-const { getContentsSummaries, groupByYearMonth, store} = useContentfulStore()
+// getcontentsSummariesとgetBlogPostsは統合できるのでは？もっというとstoreも
+const { getContentsSummaries, groupByYearMonth, store, getBlogPosts} = useContentfulStore()
 
 const route = useRoute()
 
@@ -20,7 +21,7 @@ const yyyymmTitle = groupByYearMonth('blogPost').filter((yyyymm) => yyyymm.slug 
 const h1Text = groupType === 'category' ? `${categoryTitle && categoryTitle[0].title}に関する記事` :
     groupType === 'archive' ? `${yyyymmTitle && yyyymmTitle[0].title}の投稿` : '新着記事一覧'
 
-const blogPost = store.blogPost
+const blogPosts = getBlogPosts
 
 const pageSize = ref(10) // 1ページあたりに表示する記事の数
 const lastSlug = pathParts.slice(-2)[1] 
@@ -59,13 +60,13 @@ function updateCurrentPage(val: number) {
         <div class="h1Text">
             {{ h1Text }}
         </div>
-        <div v-for="i in blogPost?.total" :key="i">
-            <ArticleCard />
+        <div v-for="(blogPost, i) in blogPosts" :key="i">
+            <ArticleCard :blogInfo="blogPost"/>
         </div>
         <div class="pagination-block">
             <el-pagination 
                 layout="prev, pager, next"
-                :total="blogPost?.total || 1"
+                :total="blogPosts?.length || 1"
                 :current-page="currentPage"
                 @update:current-page="updateCurrentPage"
                 background

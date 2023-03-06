@@ -1,4 +1,4 @@
-import { Entry, EntryCollection } from 'contentful'
+import { Entry, EntryCollection, Asset } from 'contentful'
 import {defineStore} from 'pinia'
 import { CONTENT_TYPE, IBlogPost, IBlogPostFields, ICategory, ICategoryFields } from '~~/@types/generated/contentful'
 
@@ -6,8 +6,20 @@ export type EntryTitleList = {
     title?: string,
     slug?: string,
     count?: number,
-    createdAt?: string // :Date
+    createdAt?: string, // :Date
+    updatedAt?: string,
 }[]
+
+export type BlogPost = {
+    title?: string
+    slug?: string
+    createdAt?: string
+    updatedAt?: string
+    categoryName?: string
+    eyecatchUrl?: string
+    body: string
+
+}
 type Contents<T> = {
 [K in CONTENT_TYPE]: EntryCollection<T> | null
 };
@@ -47,9 +59,34 @@ export const useContentfulStore = defineStore('contents', () => {
                 title: entry.fields.title,
                 slug: entry.fields.slug,
                 count: contentType === 'category' ? numOfCategory.value(entry.fields.slug) : undefined,
-                createdAt: entry.sys.createdAt // new Date(entry.sys.createdAt)
+                createdAt: entry.sys.createdAt, // new Date(entry.sys.createdAt)
+                updatedAt: entry.sys.updatedAt
             }
         }).slice(0, length)
+    })
+
+    const getBlogPosts = computed(() => {
+        return store.blogPost?.items.map((entry : Entry<IBlogPostFields>): BlogPost => {
+            return {
+                title: entry.fields.title,
+                slug: entry.fields.slug,
+                createdAt: entry.sys.createdAt,
+                updatedAt: entry.sys.updatedAt,
+                categoryName: getCategoryNameFromId.value(entry.fields.category?.sys.id || ''),
+                eyecatchUrl: getEyecatchUrlId.value(entry.fields.images?.sys.id || ''),
+                body: entry.fields.body || ''
+            }
+        })
+
+    })
+
+    const getCategoryNameFromId = computed(() => (id: string) => {
+        return store.category?.items.find(item => item.sys.id === id)?.fields.title
+    })
+
+    const getEyecatchUrlId = computed(() => (id: string) => {
+        const url = store.blogPost?.includes.Asset.find((asset: Asset) => asset.sys.id === id)?.fields.file.url
+        return `https:${url}`
     })
 
     const numOfCategory = computed(() => (categoryString: string | undefined) => {
@@ -100,7 +137,7 @@ export const useContentfulStore = defineStore('contents', () => {
         store[contentType] = entries
     }
 
-    return { store, getContentsSummaries, groupByYearMonth, getContents }
+    return { store, getContentsSummaries, getBlogPosts, groupByYearMonth, getContents }
 
     
 })

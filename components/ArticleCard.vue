@@ -1,9 +1,8 @@
 <script setup lang="ts">
-/*
+import { BlogPost } from '~~/stores/contentful';
 const props = defineProps <{
-
+  blogInfo: BlogPost
 }>()
-*/
 </script>
 <template>
     <el-card :body-style="{padding: '0px' }">
