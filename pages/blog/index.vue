@@ -3,7 +3,7 @@ import { CONTENT_TYPE } from "~~/@types/generated/contentful"
 import { useContentfulStore } from "~~/stores/contentful"
 
 // getcontentsSummariesとgetBlogPostsは統合できるのでは？もっというとstoreも
-const { getContentsSummaries, groupByYearMonth, store, getBlogPosts} = useContentfulStore()
+const { getContentsSummaries, groupByYearMonth, store, getBlogPosts, getBlogPostsRange, getBlogPostsFilteredByCategory, getBlogPostsFilteredByYearMonth} = useContentfulStore()
 
 const route = useRoute()
 
@@ -21,13 +21,23 @@ const yyyymmTitle = groupByYearMonth('blogPost').filter((yyyymm) => yyyymm.slug 
 const h1Text = groupType === 'category' ? `${categoryTitle && categoryTitle[0].title}に関する記事` :
     groupType === 'archive' ? `${yyyymmTitle && yyyymmTitle[0].title}の投稿` : '新着記事一覧'
 
-const blogPosts = getBlogPosts
 
 const pageSize = ref(10) // 1ページあたりに表示する記事の数
 const lastSlug = pathParts.slice(-2)[1] 
 const beforeLastSlug = pathParts.slice(-2)[0]
 const currentPage = ref(beforeLastSlug == 'page' && !isNaN(parseInt(lastSlug)) ? parseInt(lastSlug) : 1) // 現在のページ数を取得する。（正確ではない気がする)
 // const currentPage = ref(1)
+
+const itemNoFrom = pageSize.value * (currentPage.value - 1) + 1
+const itemNoTo = itemNoFrom + pageSize.value -1
+
+// todo: blogPosts自体はサイズ取得しかしていのに、実際のオブジェクトを取得しているのは無駄。改善する
+console.log(currentSlug)
+const blogPosts = groupType === 'category' ? getBlogPostsFilteredByCategory(currentSlug) :
+    groupType === 'archive' ? getBlogPostsFilteredByYearMonth(yyyymmTitle[0].slug || '') : getBlogPosts
+
+    console.log(blogPosts)
+const blogPostsRange = getBlogPostsRange(blogPosts, itemNoFrom, itemNoTo)
 
 function updateCurrentPage(val: number) {
 
@@ -60,7 +70,7 @@ function updateCurrentPage(val: number) {
         <div class="h1Text">
             {{ h1Text }}
         </div>
-        <div v-for="(blogPost, i) in blogPosts" :key="i">
+        <div v-for="(blogPost, i) in blogPostsRange" :key="i">
             <ArticleCard :blogInfo="blogPost"/>
         </div>
         <div class="pagination-block">

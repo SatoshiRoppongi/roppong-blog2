@@ -1,3 +1,4 @@
+import { file } from '@babel/types'
 import { Entry, EntryCollection, Asset } from 'contentful'
 import {defineStore} from 'pinia'
 import { CONTENT_TYPE, IBlogPost, IBlogPostFields, ICategory, ICategoryFields } from '~~/@types/generated/contentful'
@@ -16,6 +17,7 @@ export type BlogPost = {
     createdAt?: string
     updatedAt?: string
     categoryName?: string
+    categorySlug?: string
     eyecatchUrl?: string
     body: string
 
@@ -72,16 +74,37 @@ export const useContentfulStore = defineStore('contents', () => {
                 slug: entry.fields.slug,
                 createdAt: entry.sys.createdAt,
                 updatedAt: entry.sys.updatedAt,
-                categoryName: getCategoryNameFromId.value(entry.fields.category?.sys.id || ''),
+                categoryName: getCategoryFromId.value(entry.fields.category?.sys.id || '').categoryName,
+                categorySlug: getCategoryFromId.value(entry.fields.category?.sys.id || '').categorySlug,
                 eyecatchUrl: getEyecatchUrlId.value(entry.fields.images?.sys.id || ''),
                 body: entry.fields.body || ''
             }
+        }) || []
+
+    })
+    const getBlogPostsRange = computed(() => (blogPosts: BlogPost[], itemNoFrom: number, itemNoTo: number)=> {
+        return blogPosts.slice(itemNoFrom - 1, itemNoTo)
+    })
+
+    // getBlogPostsFilteredByYearMonth と共通化できそう
+    const getBlogPostsFilteredByCategory = computed(() => (categorySlug: string) => {
+        const filteredPost =  getBlogPosts.value.filter((post) => {
+            return post.categorySlug === categorySlug
         })
+        console.log(filteredPost)
+        return filteredPost
 
     })
 
-    const getCategoryNameFromId = computed(() => (id: string) => {
-        return store.category?.items.find(item => item.sys.id === id)?.fields.title
+    // getBlogPostsFilteredByCategory と共通化できそう
+    const getBlogPostsFilteredByYearMonth = computed(() => (yyyymm: string) => {
+        return getBlogPosts.value.filter(post => dateStringToPretty(post.createdAt || '').YYYYMM === yyyymm)
+    })
+
+    const getCategoryFromId = computed(() => (id: string) => {
+        const categoryName =  store.category?.items.find(item => item.sys.id === id)?.fields.title
+        const categorySlug = store.category?.items.find(item => item.sys.id === id)?.fields.slug
+        return {categoryName, categorySlug}
     })
 
     const getEyecatchUrlId = computed(() => (id: string) => {
@@ -100,12 +123,8 @@ export const useContentfulStore = defineStore('contents', () => {
         const blogPostEntries = getContentsSummaries.value(contentType, length)
         const retArray: EntryTitleList = []
         blogPostEntries?.forEach((obj) => { 
-            // [YYYY, MM]
-            const YearMonth = obj.createdAt?.split('-').slice(0,2)
-            // YYYY年MM月
-            const YearMonthJP = `${YearMonth && YearMonth[0]}年${YearMonth && YearMonth[1]}月`
-            // YYYYMM for slug
-            const YYYYMM= YearMonth?.join('')
+
+            const { YearMonthJP, YYYYMM } = dateStringToPretty(obj.createdAt || '')
             const YearMonthObj = retArray.find((obj) => obj.slug === YYYYMM)
             if (YearMonthObj) {
                 YearMonthObj.count && YearMonthObj.count++
@@ -122,6 +141,20 @@ export const useContentfulStore = defineStore('contents', () => {
         return retArray
     })
 
+    // 共通関数(plugins, composablesとかに切り出した方がいい？)
+    const dateStringToPretty = (dateString: string) => {
+        // [YYYY, MM]
+        const YearMonth = dateString.split('-').slice(0,2)
+        // YYYY年MM月
+        const YearMonthJP = `${YearMonth && YearMonth[0]}年${YearMonth && YearMonth[1]}月`
+        // YYYYMM for slug
+        const YYYYMM= YearMonth?.join('')
+        return {
+            YearMonthJP,
+            YYYYMM
+        }
+    }
+
 
     /**
      * Actions
@@ -137,7 +170,16 @@ export const useContentfulStore = defineStore('contents', () => {
         store[contentType] = entries
     }
 
-    return { store, getContentsSummaries, getBlogPosts, groupByYearMonth, getContents }
+    return {
+        store,
+        getContentsSummaries,
+        getBlogPosts,
+        getBlogPostsRange,
+        getBlogPostsFilteredByCategory,
+        getBlogPostsFilteredByYearMonth,
+        groupByYearMonth,
+        getContents
+    }
 
     
 })

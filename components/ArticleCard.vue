@@ -6,10 +6,17 @@ const props = defineProps <{
 </script>
 <template>
     <el-card :body-style="{padding: '0px' }">
+        <div class="date">
+          <span>作成日:{{ blogInfo.createdAt }}</span>
+          <span>(更新日:{{ blogInfo.updatedAt }})</span>
+        </div>
+        <div class="title">{{ blogInfo.title }}</div>
+        <div class="catgory"> {{ blogInfo.categoryName }}</div>
         <img
-        src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
+        :src=blogInfo.eyecatchUrl
         class="image"
         />
+        {{ blogInfo.body }}
         <div style="padding: 14px">
             <span>Yummy hamburger</span>
             <div class="bottom">
