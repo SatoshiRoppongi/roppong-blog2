@@ -2,5 +2,7 @@
 </script>
 
 <template>
-    profile
+    <el-card>
+        profile
+    </el-card>
 </template>

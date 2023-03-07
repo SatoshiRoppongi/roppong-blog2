@@ -65,12 +65,15 @@ function updateCurrentPage(val: number) {
 </script>
 <template>
     <div>
-        <div class="h1Text">
+        <h1 class="h1Text">
             {{ h1Text }}
-        </div>
-        <div v-for="(blogPost, i) in blogPostsRange" :key="i">
-            <ArticleCard :blogInfo="blogPost"/>
-        </div>
+            <el-tag> {{ blogPostsRange.length }}件</el-tag>
+        </h1>
+        <el-space direction="vertical" :size="50" alignment="center">
+            <div v-for="(blogPost, i) in blogPostsRange" :key="i">
+                <ArticleCard :blogInfo="blogPost"/>
+            </div>
+        </el-space>
         <div class="pagination-block">
             <el-pagination 
                 layout="prev, pager, next"
@@ -86,6 +89,7 @@ function updateCurrentPage(val: number) {
 
 .h1Text {
     text-align: center;
+    font-size: 20px;
 }
 .pagination-block {
     margin: 0 auto;

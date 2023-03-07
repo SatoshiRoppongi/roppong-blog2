@@ -10,6 +10,7 @@
                     <el-main>
                         <slot />
                     </el-main>
+                    <el-backtop :right="100" :bottom="100" />
                     <el-footer>footer</el-footer>
                 </el-container>
                 <el-aside width="200px"> 

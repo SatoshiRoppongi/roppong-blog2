@@ -21,7 +21,7 @@ const useFunction = props.groupType === 'archive' ? groupByYearMonth:  getConten
 
 </script>
 <template>
-    <el-card classs="box-card">
+    <el-card classs="box-card" body-style="{witdh: 480px}">
         <template #header>
             <div class="card-header">
                 <span> {{ groupName }}</span>
@@ -29,7 +29,8 @@ const useFunction = props.groupType === 'archive' ? groupByYearMonth:  getConten
         </template>
         <div v-for="(info, index) in useFunction(contentType, length)" :key="index">
             <NuxtLink :to="`${slugBase}${info.slug}`">
-            {{ info.title }} {{ info.count }}
+            {{ info.title }} 
+            <el-tag v-if="info.count"> {{ info.count }} </el-tag>
             </NuxtLink>
         </div>
     </el-card>
