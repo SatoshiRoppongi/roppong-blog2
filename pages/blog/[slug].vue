@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useContentfulStore } from "~~/stores/contentful"
 
+const { $mdRenderer } = useNuxtApp()
 const route = useRoute()
 
 const { getContentsSummaries, groupByYearMonth, store, getBlogPosts, getBlogPostsRange, getBlogPostsFilteredByCategory, getBlogPostsFilteredByYearMonth} = useContentfulStore()
@@ -11,5 +12,7 @@ onMounted(() => {
 })
 </script>
 <template>
-    {{ blogPost }}
+    <div>
+        <div v-html="$mdRenderer.render(blogPost?.body || '')" />
+    </div>
 </template>
