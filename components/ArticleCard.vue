@@ -7,13 +7,13 @@ const props = defineProps <{
 <template>
     <el-card :body-style="{padding: '0px' }">
         <div class="date">
-          <span>作成日:{{ blogInfo.createdAt }}</span>
-          <span>(更新日:{{ blogInfo.updatedAt }})</span>
+          <span>作成日:{{ blogInfo.createdAt?.YearMonthDayJP }}</span>
+          <span>(更新日:{{ blogInfo.updatedAt?.YearMonthDayJP }})</span>
         </div>
         <div class="title">{{ blogInfo.title }}</div>
         <div class="catgory"> {{ blogInfo.categoryName }}</div>
         <img
-        :src=blogInfo.eyecatchUrl
+        :src="`https:${blogInfo.eyecatchUrl || '//picsum.photos/900/300/?random='+Math.random()}`"
         class="image"
         />
         {{ blogInfo.body }}

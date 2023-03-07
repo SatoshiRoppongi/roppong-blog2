@@ -11,11 +11,17 @@ export type EntryTitleList = {
     updatedAt?: string,
 }[]
 
+export type DateFormat = {
+    YearMonthJP: string,
+    YearMonthDayJP: string,
+    YYYYMM: string
+}
+
 export type BlogPost = {
     title?: string
     slug?: string
-    createdAt?: string
-    updatedAt?: string
+    createdAt?: DateFormat
+    updatedAt?: DateFormat
     categoryName?: string
     categorySlug?: string
     eyecatchUrl?: string
@@ -72,8 +78,8 @@ export const useContentfulStore = defineStore('contents', () => {
             return {
                 title: entry.fields.title,
                 slug: entry.fields.slug,
-                createdAt: entry.sys.createdAt,
-                updatedAt: entry.sys.updatedAt,
+                createdAt: dateStringToPretty(entry.sys.createdAt),
+                updatedAt: dateStringToPretty(entry.sys.updatedAt),
                 categoryName: getCategoryFromId.value(entry.fields.category?.sys.id || '').categoryName,
                 categorySlug: getCategoryFromId.value(entry.fields.category?.sys.id || '').categorySlug,
                 eyecatchUrl: getEyecatchUrlId.value(entry.fields.images?.sys.id || ''),
@@ -98,7 +104,7 @@ export const useContentfulStore = defineStore('contents', () => {
 
     // getBlogPostsFilteredByCategory と共通化できそう
     const getBlogPostsFilteredByYearMonth = computed(() => (yyyymm: string) => {
-        return getBlogPosts.value.filter(post => dateStringToPretty(post.createdAt || '').YYYYMM === yyyymm)
+        return getBlogPosts.value.filter(post => post.createdAt?.YYYYMM === yyyymm)
     })
 
     const getCategoryFromId = computed(() => (id: string) => {
@@ -109,7 +115,7 @@ export const useContentfulStore = defineStore('contents', () => {
 
     const getEyecatchUrlId = computed(() => (id: string) => {
         const url = store.blogPost?.includes.Asset.find((asset: Asset) => asset.sys.id === id)?.fields.file.url
-        return `https:${url}`
+        return url
     })
 
     const numOfCategory = computed(() => (categoryString: string | undefined) => {
@@ -142,15 +148,18 @@ export const useContentfulStore = defineStore('contents', () => {
     })
 
     // 共通関数(plugins, composablesとかに切り出した方がいい？)
-    const dateStringToPretty = (dateString: string) => {
+    const dateStringToPretty = (dateString: string): DateFormat => {
         // [YYYY, MM]
-        const YearMonth = dateString.split('-').slice(0,2)
+        const YearMonthDay = dateString.split('T')[0].split('-')
         // YYYY年MM月
-        const YearMonthJP = `${YearMonth && YearMonth[0]}年${YearMonth && YearMonth[1]}月`
+        const YearMonthJP = `${YearMonthDay && YearMonthDay[0]}年${YearMonthDay && YearMonthDay[1]}月`
+        // YYYY年MM月DD日
+        const YearMonthDayJP = `${YearMonthJP}${YearMonthDay && YearMonthDay[2]}日`
         // YYYYMM for slug
-        const YYYYMM= YearMonth?.join('')
+        const YYYYMM= YearMonthDay?.slice(0,2).join('')
         return {
             YearMonthJP,
+            YearMonthDayJP,
             YYYYMM
         }
     }
