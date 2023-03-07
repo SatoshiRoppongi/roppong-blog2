@@ -12,6 +12,19 @@ onMounted(() => {
 })
 </script>
 <template>
+    <h1 class="title">
+        {{ blogPost?.title }}
+    </h1>
+    <div>
+        記事カテゴリ: {{ blogPost?.categoryName }}
+    </div>
+    <div>
+        投稿日: {{ blogPost?.createdAt?.YearMonthDayJP}}
+    </div>
+    <div>
+        更新日: {{ blogPost?.updatedAt?.YearMonthDayJP}}
+    </div>
+    <el-image :src="blogPost?.eyecatchUrl" lazy />
     <div>
         <div v-html="$mdRenderer.render(blogPost?.body || '')" />
     </div>

@@ -32,11 +32,9 @@ const itemNoFrom = pageSize.value * (currentPage.value - 1) + 1
 const itemNoTo = itemNoFrom + pageSize.value -1
 
 // todo: blogPosts自体はサイズ取得しかしていのに、実際のオブジェクトを取得しているのは無駄。改善する
-console.log(currentSlug)
 const blogPosts = groupType === 'category' ? getBlogPostsFilteredByCategory(currentSlug) :
     groupType === 'archive' ? getBlogPostsFilteredByYearMonth(yyyymmTitle[0].slug || '') : getBlogPosts
 
-    console.log(blogPosts)
 const blogPostsRange = getBlogPostsRange(blogPosts, itemNoFrom, itemNoTo)
 
 function updateCurrentPage(val: number) {

@@ -82,7 +82,7 @@ export const useContentfulStore = defineStore('contents', () => {
                 updatedAt: dateStringToPretty(entry.sys.updatedAt),
                 categoryName: getCategoryFromId.value(entry.fields.category?.sys.id || '').categoryName,
                 categorySlug: getCategoryFromId.value(entry.fields.category?.sys.id || '').categorySlug,
-                eyecatchUrl: getEyecatchUrlId.value(entry.fields.images?.sys.id || ''),
+                eyecatchUrl: `https:${getEyecatchUrlId.value(entry.fields.images?.sys.id || '') || '//picsum.photos/900/300/?random='+Math.random()}`,
                 body: entry.fields.body || ''
             }
         }) || []
@@ -97,7 +97,6 @@ export const useContentfulStore = defineStore('contents', () => {
         const filteredPost =  getBlogPosts.value.filter((post) => {
             return post.categorySlug === categorySlug
         })
-        console.log(filteredPost)
         return filteredPost
 
     })
