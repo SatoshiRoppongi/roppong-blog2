@@ -1,7 +1,7 @@
 import { file } from '@babel/types'
 import { Entry, EntryCollection, Asset } from 'contentful'
 import {defineStore} from 'pinia'
-import { CONTENT_TYPE, IBlogPost, IBlogPostFields, ICategory, ICategoryFields } from '~~/@types/generated/contentful'
+import { CONTENT_TYPE, IBlogPost, IBlogPostFields, IBlogPostImageFields, ICategory, ICategoryFields } from '~~/@types/generated/contentful'
 
 export type EntryTitleList = {
     title?: string,
@@ -29,7 +29,7 @@ export type BlogPost = {
 
 }
 type Contents<T> = {
-[K in CONTENT_TYPE]: EntryCollection<T> | null
+[K in CONTENT_TYPE]: EntryCollection<T> | undefined
 };
 
 // type GetContentsSummaries = (contentType: CONTENT_TYPE, length?: number | undefined) => EntryTitleList | undefined
@@ -41,19 +41,20 @@ export const useContentfulStore = defineStore('contents', () => {
 
     const store = reactive<Contents<IBlogPostFields|ICategoryFields>>({
         // todo: もっと簡潔に書けないか
-        blogPost: null,
-        blogPostImage: null,
-        category: null,
-        generalPage: null,
-        layout: null,
-        layoutCopy: null,
-        layoutHeroImage: null,
-        layoutHighlightedCourse: null,
-        lesson: null,
-        lessonCodeSnippets: null,
-        lessonCopy: null,
-        lessonImage: null
+        blogPost: undefined,
+        blogPostImage: undefined,
+        category: undefined,
+        generalPage: undefined,
+        layout: undefined,
+        layoutCopy: undefined,
+        layoutHeroImage: undefined,
+        layoutHighlightedCourse: undefined,
+        lesson: undefined,
+        lessonCodeSnippets: undefined,
+        lessonCopy: undefined,
+        lessonImage: undefined
     })
+    
     /**
      * Getters
      */
