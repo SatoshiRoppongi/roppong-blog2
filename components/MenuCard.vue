@@ -6,7 +6,7 @@ import { GroupType } from "./Sidebar.vue"
 const props = defineProps<{
     groupType: GroupType
     groupName: string
-    contentType: CONTENT_TYPE
+    contentType: "blogPost" | "category"
     length?: number
 }>()
 

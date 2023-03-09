@@ -1,7 +1,7 @@
 import { file } from '@babel/types'
 import { Entry, EntryCollection, Asset } from 'contentful'
 import {defineStore} from 'pinia'
-import { CONTENT_TYPE, IBlogPost, IBlogPostFields, IBlogPostImageFields, ICategory, ICategoryFields } from '~~/@types/generated/contentful'
+import { IEntry, CONTENT_TYPE, IBlogPost, IBlogPostFields, IBlogPostImageFields, ICategory, ICategoryFields } from '~~/@types/generated/contentful'
 
 export type EntryTitleList = {
     title?: string,
@@ -28,9 +28,27 @@ export type BlogPost = {
     body: string
 
 }
-type Contents<T> = {
-[K in CONTENT_TYPE]: EntryCollection<T> | undefined
+
+type ExtraInfo<T> = {
+    sys: {
+        contentType: {
+            sys: {
+                id: T
+            }
+        }
+    }
+}
+type Optional = "stringifySafe" |  "toPlainObject" | "update" 
+
+// T1: content_type
+// T2: IEntry
+type ExtractContentType<T1, T2> = T2 extends ExtraInfo<T1> ? FlattenEntry<T2> : never
+
+type Contents = {
+[K in CONTENT_TYPE]: Omit<EntryCollection<ExtractContentType<K, IEntry>>, Optional> | undefined
 };
+
+type FlattenEntry<T> = T extends Entry<infer U> ? U : never;
 
 // type GetContentsSummaries = (contentType: CONTENT_TYPE, length?: number | undefined) => EntryTitleList | undefined
 
@@ -39,7 +57,7 @@ export const useContentfulStore = defineStore('contents', () => {
      * State
      */
 
-    const store = reactive<Contents<IBlogPostFields|ICategoryFields>>({
+    const store = reactive<Contents>({
         // todo: もっと簡潔に書けないか
         blogPost: undefined,
         blogPostImage: undefined,
@@ -61,8 +79,7 @@ export const useContentfulStore = defineStore('contents', () => {
 
     // todo: 以下getterは共通化可能。共通化する　
 
-    const getContentsSummaries = computed(() => (contentType: CONTENT_TYPE, length?: number): EntryTitleList | undefined => {
-        const key: keyof Contents<IBlogPostFields | ICategoryFields> = contentType
+    const getContentsSummaries = computed(() => (contentType: "blogPost" | "category", length?: number): EntryTitleList | undefined => {
         return store[contentType]?.items.map((entry) => {
             return {
                 title: entry.fields.title,
@@ -125,7 +142,7 @@ export const useContentfulStore = defineStore('contents', () => {
     })
 
     // サイドバーのアーカイブで利用
-    const groupByYearMonth = computed(() => (contentType: CONTENT_TYPE, length?: number) => {
+    const groupByYearMonth = computed(() => (contentType: "blogPost" | "category", length?: number) => {
         const blogPostEntries = getContentsSummaries.value(contentType, length)
         const retArray: EntryTitleList = []
         blogPostEntries?.forEach((obj) => { 
@@ -171,12 +188,13 @@ export const useContentfulStore = defineStore('contents', () => {
      */
     const { $contentfulClient } = useNuxtApp()
     const getContents = async (contentType: CONTENT_TYPE) => {
-        const entries = await $contentfulClient.getEntries<IBlogPostFields|ICategoryFields>({
+        const entries  = await $contentfulClient.getEntries<ExtractContentType<CONTENT_TYPE, Omit<IEntry, Optional>>>({
             content_type: contentType,
             order: '-sys.createdAt',
-        })
+        }) || undefined
 
-        store[contentType] = entries
+        // entriesがnever型になっているのが気になる。。
+       store[contentType] = entries
     }
 
     return {

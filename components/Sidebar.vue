@@ -5,7 +5,7 @@ export type GroupType = 'recent' | 'category' | 'archive'
 interface GroupInfo {
     groupType: GroupType;
     groupName: string;
-    contentType: CONTENT_TYPE
+    contentType: "blogPost" | "category"
     length?: number; // 表示件数
 }
 
