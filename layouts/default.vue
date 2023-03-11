@@ -6,14 +6,14 @@
                 <Navbar />
             </el-header>
             <el-container class="main">
-                <el-container>
+                <el-container class="contents">
                     <el-main>
                         <slot />
                     </el-main>
                     <el-backtop :right="100" :bottom="100" />
                     <el-footer>footer</el-footer>
                 </el-container>
-                <el-aside width="200px"> 
+                <el-aside width="350px"> 
                     <Sidebar />
                 </el-aside>
             </el-container>
@@ -22,7 +22,10 @@
 </template>
 <style scoped>
 .main {
-    margin-left: 150px;
-    margin-right: 150px;
+    margin-left: 200px;
+    margin-right: 200px;
+}
+* {
+	outline: 1px solid magenta;
 }
 </style>

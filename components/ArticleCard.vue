@@ -24,7 +24,7 @@ const postIntro = computed(() => {
 
 </script>
 <template>
-    <el-card :body-style="{padding: '30px', width: '800px'  }">
+    <el-card class="card">
         <div class="date">
           <span>作成日:{{ blogInfo.createdAt?.YearMonthDayJP }}</span>
           <span>(更新日:{{ blogInfo.updatedAt?.YearMonthDayJP }})</span>
@@ -60,5 +60,9 @@ const postIntro = computed(() => {
 .image {
   width: 100%;
   display: block;
+}
+
+.card {
+  width: 50%
 }
 </style>

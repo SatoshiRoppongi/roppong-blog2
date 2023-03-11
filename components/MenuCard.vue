@@ -21,7 +21,7 @@ const useFunction = props.groupType === 'archive' ? groupByYearMonth:  getConten
 
 </script>
 <template>
-    <el-card classs="box-card" body-style="{witdh: 480px}">
+    <el-card class="box-card" body-style="{witdh: 480px}">
         <template #header>
             <div class="card-header">
                 <span> {{ groupName }}</span>
@@ -51,6 +51,6 @@ const useFunction = props.groupType === 'archive' ? groupByYearMonth:  getConten
 }
 
 .box-card {
-    width: 480px;
+    width: 90%;
 }
 </style>

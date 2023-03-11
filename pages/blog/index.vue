@@ -18,8 +18,8 @@ const contentType: CONTENT_TYPE = 'category'
 // todo: 無駄な計算をしないように修正する
 const categoryTitle = getContentsSummaries(contentType)?.filter((category) => category.slug === currentSlug) 
 const yyyymmTitle = groupByYearMonth('blogPost').filter((yyyymm) => yyyymm.slug === currentSlug)
-const h1Text = groupType === 'category' ? `${categoryTitle && categoryTitle[0].title}に関する記事` :
-    groupType === 'archive' ? `${yyyymmTitle && yyyymmTitle[0].title}の投稿` : '新着記事一覧'
+const h1Text = groupType === 'category' ? `${categoryTitle && categoryTitle[0]?.title}に関する記事` :
+    groupType === 'archive' ? `${yyyymmTitle && yyyymmTitle[0]?.title}の投稿` : '新着記事一覧'
 
 
 const pageSize = ref(10) // 1ページあたりに表示する記事の数
@@ -64,13 +64,13 @@ function updateCurrentPage(val: number) {
 
 </script>
 <template>
-    <div>
+    <div class="body">
         <h1 class="h1Text">
             {{ h1Text }}
             <el-tag> {{ blogPostsRange.length }}件</el-tag>
         </h1>
-        <el-space direction="vertical" :size="50" alignment="center">
-            <div v-for="(blogPost, i) in blogPostsRange" :key="i">
+        <el-space direction="vertical" :size="30" alignment="center">
+            <div class="cards" v-for="(blogPost, i) in blogPostsRange" :key="i">
                 <ArticleCard :blogInfo="blogPost"/>
             </div>
         </el-space>
@@ -95,5 +95,12 @@ function updateCurrentPage(val: number) {
     margin: 0 auto;
     width: 200px
 
+}
+
+.body {
+    width: auto;
+}
+.cards {
+    width: 80%;
 }
 </style>
