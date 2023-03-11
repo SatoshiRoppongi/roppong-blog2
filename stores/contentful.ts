@@ -141,6 +141,11 @@ export const useContentfulStore = defineStore('contents', () => {
         }).length || 0
     })
 
+    // store.blogPostImageのgetter
+    const getBlogPostImage = computed(() => {
+        return store.blogPostImage?.items[0].fields.image?.fields.file.url
+    })
+
     // サイドバーのアーカイブで利用
     const groupByYearMonth = computed(() => (contentType: "blogPost" | "category", length?: number) => {
         const blogPostEntries = getContentsSummaries.value(contentType, length)
@@ -205,6 +210,7 @@ export const useContentfulStore = defineStore('contents', () => {
         getBlogPostsFilteredByCategory,
         getBlogPostsFilteredByYearMonth,
         groupByYearMonth,
+        getBlogPostImage,
         getContents
     }
 
