@@ -26,24 +26,35 @@ const postIntro = computed(() => {
 <template>
     <el-card class="card">
         <div class="date">
-          <span>作成日:{{ blogInfo.createdAt?.YearMonthDayJP }}</span>
-          <span>(更新日:{{ blogInfo.updatedAt?.YearMonthDayJP }})</span>
+          <span>{{ blogInfo.createdAt?.YearMonthDayJP }}</span>
+          <span v-if="blogInfo.createdAt?.YearMonthDayJP !== blogInfo.updatedAt?.YearMonthDayJP">(更新日:{{ blogInfo.updatedAt?.YearMonthDayJP }})</span>
         </div>
-        <nuxt-link :to="`/blog/${blogInfo.slug}`"> {{ blogInfo.title }} </nuxt-link>
-        <div class="catgory"> {{ blogInfo.categoryName }}</div>
+        <h2>
+          <nuxt-link :to="`/blog/${blogInfo.slug}`" class="c-p"> {{ blogInfo.title }} </nuxt-link>
+        </h2>
+        <nuxt-link :to="`/blog/category/${blogInfo.categorySlug}`" class="c-p">
+          <el-tag class="category">
+          {{ blogInfo.categoryName }}
+          </el-tag>
+        </nuxt-link>
         <img
         :src="blogInfo.eyecatchUrl"
-        class="image"
+        class="eyecatch-img"
         />
-        <div v-html="$mdRenderer.render(postIntro || '')" />
+        <div class="article-body" v-html="$mdRenderer.render(postIntro || '')" />
         <div style="padding: 14px">
             <div class="bottom">
-                <el-button text class="button">続きを見る</el-button>
+              <nuxt-link :to="`/blog/${blogInfo.slug}`" class="c-p">
+                  <el-button text class="button">続きを見る</el-button>
+              </nuxt-link>
             </div>
         </div>
     </el-card>
 </template>
 <style>
+.date {
+  font-size: 13px;
+}
 .bottom {
   margin-top: 13px;
   line-height: 12px;
@@ -57,12 +68,18 @@ const postIntro = computed(() => {
   min-height: auto;
 }
 
-.image {
-  width: 100%;
-  display: block;
-}
 
 .card {
-  width: 50%
+  width: 50%;
+  text-align:center;
+}
+
+.article-body {
+  text-align: left;
+}
+
+.category {
+  margin-top:20px;
+  margin-bottom:20px;
 }
 </style>

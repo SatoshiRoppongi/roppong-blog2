@@ -1,0 +1,21 @@
+/*
+https: //yuji-ueda.hatenadiary.jp/entry/2020/02/26/221822
+*/
+.c-p {
+    text-decoration: none;
+}
+
+.flex-grow {
+    flex-grow: 1;
+}
+
+.h1Text {
+    text-align: center;
+    font-size: 30px;
+}
+
+.eyecatch-img {
+  width: 100%;
+  display: block;
+  border-radius: 15px;
+}

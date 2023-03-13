@@ -20,4 +20,5 @@ export default defineNuxtConfig({
         '@pinia/nuxt',
         '@element-plus/nuxt'
     ],
+    css: ['/assets/style.css'],
 })

@@ -41,7 +41,7 @@ const socialInfoList = [
                 </a>
             </el-col>
         </el-row>
-        <el-button type="info">
+        <el-button class="button" type="info">
             詳細はこちら
         </el-button>
     </el-card>
@@ -56,6 +56,11 @@ const socialInfoList = [
 }
 
 .img {
-    border-radius: 60px;
+    border-radius: 50%;
+}
+
+.button {
+    margin-top: 20px;
+    padding: 20px;
 }
 </style>

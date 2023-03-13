@@ -28,9 +28,11 @@ const useFunction = props.groupType === 'archive' ? groupByYearMonth:  getConten
             </div>
         </template>
         <div v-for="(info, index) in useFunction(contentType, length)" :key="index">
-            <NuxtLink :to="`${slugBase}${info.slug}`">
-            {{ info.title }} 
-            <el-tag v-if="info.count"> {{ info.count }} </el-tag>
+            <el-divider v-if="index !== 0"/>
+            <NuxtLink :to="`${slugBase}${info.slug}`" class="c-p">
+                    {{ info.title }} 
+            <span class="flex-grow" />
+            <el-tag v-if="info.count" class="tag"> {{ info.count }} </el-tag>
             </NuxtLink>
         </div>
     </el-card>
@@ -52,5 +54,10 @@ const useFunction = props.groupType === 'archive' ? groupByYearMonth:  getConten
 
 .box-card {
     width: 90%;
+}
+
+.tag {
+    float: right;
+    margin-right: 30px;
 }
 </style>

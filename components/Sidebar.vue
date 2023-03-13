@@ -31,10 +31,18 @@ const groupInfo: GroupInfo[] = reactive([
 
 </script>
 <template>
-    <ProfileCard />
-    <el-space direction="vertical" :size="25" alignment="center">
-        <div v-for="(group, index) in groupInfo" :key="index">
-            <MenuCard :groupType="group.groupType" :groupName="group.groupName" :contentType="group.contentType" :length="group.length"/>
-        </div>
-    </el-space>
+    <ProfileCard class="profilecard" />
+        <MenuCard class="menucard" v-for="(group, index) in groupInfo" :key="index" :groupType="group.groupType" :groupName="group.groupName" :contentType="group.contentType" :length="group.length"/>
 </template>
+<style scoped>
+.profilecard {
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.menucard {
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+</style>
