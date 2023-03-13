@@ -25,7 +25,9 @@
     margin-left: 200px;
     margin-right: 200px;
 }
+/*
 * {
 	outline: 1px solid magenta;
 }
+*/
 </style>
