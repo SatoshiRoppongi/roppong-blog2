@@ -30,6 +30,9 @@ const useFunction = props.groupType === 'archive' ? groupByYearMonth:  getConten
         <div v-for="(info, index) in useFunction(contentType, length)" :key="index">
             <el-divider v-if="index !== 0"/>
             <NuxtLink :to="`${slugBase}${info.slug}`" class="c-p">
+                <el-icon v-if="contentType === 'category' && info.slug">
+                    <component v-bind:is="$iconComponent(info.slug)" />
+                </el-icon>
                     {{ info.title }} 
             <span class="flex-grow" />
             <el-tag v-if="info.count" class="tag"> {{ info.count }} </el-tag>

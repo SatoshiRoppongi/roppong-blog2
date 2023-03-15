@@ -16,6 +16,7 @@
     "vue-tsc": "^1.0.24"
   },
   "dependencies": {
+    "@element-plus/icons-vue": "^2.1.0",
     "@element-plus/nuxt": "^1.0.3",
     "@nuxtjs/dotenv": "^1.4.1",
     "@pinia/nuxt": "^0.4.7",

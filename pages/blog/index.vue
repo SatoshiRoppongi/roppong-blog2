@@ -66,8 +66,11 @@ function updateCurrentPage(val: number) {
 <template>
     <div class="body">
         <h1 class="h1Text">
+            <el-icon>
+                <component v-bind:is="$iconComponent(lastSlug)" />
+            </el-icon>
             {{ h1Text }}
-            <el-tag> {{ blogPostsRange.length }}件</el-tag>
+            <el-tag size="large"> {{ blogPostsRange.length }}件</el-tag>
         </h1>
         <div class="card" v-for="(blogPost, i) in blogPostsRange" :key="i">
             <ArticleCard :blogInfo="blogPost"/>

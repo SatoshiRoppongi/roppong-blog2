@@ -17,7 +17,7 @@ onMounted(() => {
     </h1>
     <div class="info">
         記事カテゴリ
-        <nuxt-link :to="`blog/category/${blogPost?.categorySlug}`" class="c-p">
+        <nuxt-link :to="`category/${blogPost?.categorySlug}`" class="c-p">
             <el-tag>
             {{ blogPost?.categoryName }}
             </el-tag>
@@ -34,18 +34,18 @@ onMounted(() => {
         <div class="contents-html" v-html="$mdRenderer.render(blogPost?.body || '')" />
     </div>
 </template>
-<style lang="scss" scoped>
+<style lang="scss" scoped deep>
 .info {
     margin-bottom: 20px;
 }
 
 .contents-html {
-    ::v-deep img {
+    ::v-deep(img) {
         max-width: 100%;
         height: auto;
     }
 
-    ::v-deep pre {
+    ::v-deep(pre) {
         margin: 1em 0;
         padding: 1em;
         border-radius: 5px;
@@ -55,14 +55,15 @@ onMounted(() => {
         -webkit-overflow-scrolling: touch; 
 
     }
-    ::v-deep p {
+
+    ::v-deep(p) {
         line-height: 3em;
     }
-    ::v-deep li {
+    ::v-deep(li) {
         line-height: 2em;
     }
 
-    ::v-deep h2 {
+    ::v-deep(h2) {
         margin: 3em 0;
         padding: 0.5em;/*文字周りの余白*/
         color: #494949;/*文字色*/
@@ -70,12 +71,12 @@ onMounted(() => {
         border-left: solid 5px #ffaf58;/*左線（実線 太さ 色）*/
     }
 
-    ::v-deep h3 {
+    ::v-deep(h3) {
         /*線の種類（実線） 太さ 色*/
         border-bottom: solid 3px black;
     }
 
-    ::v-deep .table-of-contents {
+    ::v-deep(.table-of-contents) {
         background: #f3f3f3;
         border: 1px solid #ccc;
         padding: 5px 10px;

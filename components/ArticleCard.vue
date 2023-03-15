@@ -37,7 +37,7 @@ const postIntro = computed(() => {
           {{ blogInfo.categoryName }}
           </el-tag>
         </nuxt-link>
-        <img
+        <el-image
         :src="blogInfo.eyecatchUrl"
         class="eyecatch-img"
         />
