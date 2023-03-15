@@ -11,12 +11,17 @@
                         <slot />
                     </el-main>
                     <el-backtop :right="100" :bottom="100" />
-                    <el-footer>footer</el-footer>
                 </el-container>
                 <el-aside width="350px"> 
                     <Sidebar />
                 </el-aside>
             </el-container>
+            <el-footer class="footer" height="150px">
+                <p class="copyright">
+                (c) 2023 Satoshi Roppongi
+                </p>
+
+            </el-footer>
         </el-container>
     </div>
 </template>
@@ -30,4 +35,17 @@
 	outline: 1px solid magenta;
 }
 */
+.footer {
+    position: relative;
+    margin-top: 50px;
+    background-color:aliceblue;
+
+}
+
+.copyright {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
 </style>
