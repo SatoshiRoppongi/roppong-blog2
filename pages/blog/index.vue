@@ -62,6 +62,18 @@ function updateCurrentPage(val: number) {
     })
 }
 
+useHead({
+    title: `roppong blog - ${h1Text}`,
+    meta: [
+        {
+            hid: 'description',
+            name: 'description',
+            content: '趣味のランニング・日々勉強になったこと・面白いと思ったことを中心に、みなさまのお役に立つかもしれない情報を発信しています。',
+        },
+    ],
+}
+)
+
 </script>
 <template>
     <div class="body">

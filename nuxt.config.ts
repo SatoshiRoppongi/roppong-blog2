@@ -18,7 +18,11 @@ export default defineNuxtConfig({
     },
     modules: [
         '@pinia/nuxt',
-        '@element-plus/nuxt'
+        '@element-plus/nuxt',
+        'nuxt-simple-sitemap',
     ],
     css: ['/assets/style.css'],
+    sitemap: {
+        hostname: 'https://www.roppong.com',
+    }
 })

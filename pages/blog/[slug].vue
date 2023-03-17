@@ -10,6 +10,17 @@ const blogPost = getBlogPosts.find(post => post.slug === route.params.slug)
 
 onMounted(() => {
 })
+
+useHead({
+    title: blogPost?.title,
+    meta: [
+        {
+            hid: 'description',
+            name: 'description',
+            content: blogPost?.metaDescription,
+        }
+    ]
+})
 </script>
 <template>
     <h1 class="h1Text">

@@ -20,6 +20,7 @@ export type DateFormat = {
 export type BlogPost = {
     title?: string
     slug?: string
+    metaDescription?: string
     createdAt?: DateFormat
     updatedAt?: DateFormat
     categoryName?: string
@@ -95,6 +96,7 @@ export const useContentfulStore = defineStore('contents', () => {
         return store.blogPost?.items.map((entry : Entry<IBlogPostFields>): BlogPost => {
             return {
                 title: entry.fields.title,
+                metaDescription: entry.fields.metaDescription,
                 slug: entry.fields.slug,
                 createdAt: dateStringToPretty(entry.sys.createdAt),
                 updatedAt: dateStringToPretty(entry.sys.updatedAt),
