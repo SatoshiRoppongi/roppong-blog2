@@ -45,7 +45,6 @@ useHead({
         <!--
           <adsbygoogle ad-slot="7309254084" />
         -->
-          <adsbygoogle />
     </template>
     <div>
         <div class="contents-html" v-html="$mdRenderer.render(blogPost?.body || '')" />
@@ -54,7 +53,6 @@ useHead({
         <!--
           <adsbygoogle ad-slot="7309254084" />
         -->
-          <adsbygoogle />
     </template>
 </template>
 <style lang="scss" scoped deep>

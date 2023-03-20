@@ -37,7 +37,6 @@ const groupInfo: GroupInfo[] = reactive([
         <!--
           <adsbygoogle ad-slot="7309254084" />
         -->
-          <adsbygoogle />
     </template>
 </template>
 <style scoped>
