@@ -1,32 +1,26 @@
-import { createClient } from "contentful";
-// import contentful from 'contentful'
-// import * as dotenv from 'dotenv'
+// import { createClient } from "contentful";
 
-// import 'dotenv/config'
+// import { ContentfulClientApi } from "contentful";
 
-// dotenv.config()
+import * as contentful from 'contentful'
+import { ContentfulClientApi } from 'contentful';
+// const contentful = require('contentful');
 
-// todo: typeScriptで型チェックを行うように修正する
-// https://scrawledtechblog.com/next-js-typescript-contentful/
-// -> 「Contentfulと通信要のutilsを作成する」
 
 export default defineNuxtPlugin((nuxtApp) => {
-     const config = useRuntimeConfig();
-    // const createClientFunc = process.env.NODE_ENV === 'dev' ? createClient : createClient // : contentful.createClient
-    // const createClientFunc = config.node_env === 'prod' ? createClient : contentful.createClient
-    /*
-    const client = createClient({
-        space: process.env.CTF_SPACE_ID || "",
-        accessToken: process.env.CTF_CDA_ACCESS_TOKEN || "",
-    })
-    */
 
+    const config = useRuntimeConfig();
 
-
-    const client = createClient({
+    const paramObj = {
         space: config.public.ctfSpaceId,
         accessToken: config.public.ctfCdaAccessToken,
-    });
+    }
+
+    // todo: defaultの箇所でエラーになる. 下記は根本的な解決ではないので修正する
+    // @ts-ignore
+    const client: ContentfulClientApi = contentful.createClient ? contentful.createClient(paramObj) : contentful.default.createClient(paramObj)
+
+
 
     return {
         provide: {

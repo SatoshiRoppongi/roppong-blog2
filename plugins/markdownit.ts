@@ -8,6 +8,7 @@ import mdSanitizer from 'markdown-it-sanitizer';
 import mdFootnote from 'markdown-it-footnote';
 import mdTocDoneRight from 'markdown-it-toc-done-right';
 
+
 export default defineNuxtPlugin(() => {
   const renderer = md({
     breaks: true,
@@ -32,9 +33,16 @@ export default defineNuxtPlugin(() => {
     visual: true,
   })
   renderer.use(mdAnchor, {
-    permalink: true,
-    permalinkBefore: true,
-    permalinkSymbol: '§',
+    // permalink: mdAnchor.permalink.headerLink(),
+    permalink: mdAnchor.permalink.linkInsideHeader({
+      symbol: `
+        <span class="visually-hidden">Jump to heading </span>
+        <span aria-hidden="true">#</span>
+      `,
+      placement: 'before'
+    }),
+    // permalinkBefore: true,
+    // permalinkSymbol: '§',
   }).use(mdTocDoneRight)
 
   return {
