@@ -42,13 +42,19 @@ useHead({
     </div>
     <el-image :src="blogPost?.eyecatchUrl" lazy class="eyecatch-img"/>
     <template>
-        <adsbygoogle ad-slot="7309254084" />
+        <!--
+          <adsbygoogle ad-slot="7309254084" />
+        -->
+          <adsbygoogle />
     </template>
     <div>
         <div class="contents-html" v-html="$mdRenderer.render(blogPost?.body || '')" />
     </div>
     <template>
-        <adsbygoogle ad-slot="7309254084" />
+        <!--
+          <adsbygoogle ad-slot="7309254084" />
+        -->
+          <adsbygoogle />
     </template>
 </template>
 <style lang="scss" scoped deep>

@@ -97,7 +97,10 @@ useHead({
             />
         </div>
         <template>
+        <!--
           <adsbygoogle ad-slot="7309254084" />
+        -->
+          <adsbygoogle />
         </template>
     </div>
 </template>
