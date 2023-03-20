@@ -8,9 +8,9 @@ jobs:
       - run:
           name: yarn install
           command: yarn install
-      - run:
-          name: functions package install
-          command: cd functions/ && yarn install
+      # - run:
+      #     name: functions package install
+      #     command: cd functions/ && yarn install
       - run:
           name: generate
           command: yarn run generate
