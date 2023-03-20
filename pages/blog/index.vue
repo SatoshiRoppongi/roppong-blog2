@@ -96,6 +96,9 @@ useHead({
                 background
             />
         </div>
+        <template>
+          <adsbygoogle ad-slot="7309254084" />
+        </template>
     </div>
 </template>
 <style scoped>

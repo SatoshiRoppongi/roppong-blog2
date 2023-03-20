@@ -41,9 +41,15 @@ useHead({
         更新日: {{ blogPost?.updatedAt?.YearMonthDayJP}}
     </div>
     <el-image :src="blogPost?.eyecatchUrl" lazy class="eyecatch-img"/>
+    <template>
+        <adsbygoogle ad-slot="7309254084" />
+    </template>
     <div>
         <div class="contents-html" v-html="$mdRenderer.render(blogPost?.body || '')" />
     </div>
+    <template>
+        <adsbygoogle ad-slot="7309254084" />
+    </template>
 </template>
 <style lang="scss" scoped deep>
 .info {
