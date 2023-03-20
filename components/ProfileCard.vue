@@ -41,8 +41,8 @@ const socialInfoList = [
                 </a>
             </el-col>
         </el-row>
-        <el-button class="button" type="info">
-            詳細はこちら
+        <el-button disabled class="button" type="info">
+            詳細はこちら(準備中)
         </el-button>
     </el-card>
 </template>
