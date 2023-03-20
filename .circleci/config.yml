@@ -1,0 +1,25 @@
+version: 2
+jobs:
+  deploy: # ジョブ名
+    docker:
+      - image: circleci/node:12 # ジョブ実行環境のDockerイメージを記述
+    steps:
+      - checkout # ソースコードのチェックアウト
+      - run:
+          name: yarn install
+          command: yarn install
+      - run:
+          name: functions package install
+          command: cd functions/ && yarn install
+      - run:
+          name: generate
+          command: yarn run generate
+      - run:
+          name: deploy to Firebase Hosting
+          command: ./node_modules/.bin/firebase deploy --token=$FIREBASE_TOKEN # プロジェクト上のfirebase-toolsでデプロイします
+
+workflows:
+  version: 2
+  deploy: # ワークフローの名前
+    jobs:
+      - deploy # 上で定義したジョブを指定します
