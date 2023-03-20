@@ -2,7 +2,7 @@ version: 2
 jobs:
   deploy: # ジョブ名
     docker:
-      - image: circleci/node:18 # ジョブ実行環境のDockerイメージを記述
+      - image: cimg/node:18.14.0 # ジョブ実行環境のDockerイメージを記述
     steps:
       - checkout # ソースコードのチェックアウト
       - run:
