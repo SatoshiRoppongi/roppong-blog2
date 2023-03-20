@@ -56,6 +56,8 @@ function updateCurrentPage(val: number) {
             pathStr = `${pathParts.slice(0, pIndex).join('/')}/page/${val}`
         }
     }
+    // トレイリングスラッシュの除去
+    pathStr = pathStr.replace('//', '/')
 
     return navigateTo({
         path:  `${pathStr}`
@@ -100,7 +102,6 @@ useHead({
         <!--
           <adsbygoogle ad-slot="7309254084" />
         -->
-          <adsbygoogle />
         </template>
     </div>
 </template>
