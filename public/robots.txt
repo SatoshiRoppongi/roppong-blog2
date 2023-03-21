@@ -1,0 +1,2 @@
+User-agent:*
+Sitemap:https://roppong.com/sitemap.xml

@@ -26,6 +26,7 @@ export type BlogPost = {
     categoryName?: string
     categorySlug?: string
     eyecatchUrl?: string
+    eyecatchAlt?: string
     body: string
 
 }
@@ -103,6 +104,7 @@ export const useContentfulStore = defineStore('contents', () => {
                 categoryName: getCategoryFromId.value(entry.fields.category?.sys.id || '').categoryName,
                 categorySlug: getCategoryFromId.value(entry.fields.category?.sys.id || '').categorySlug,
                 eyecatchUrl: `https:${getEyecatchUrlId.value(entry.fields.images?.sys.id || '') || '//picsum.photos/900/300/?random='+Math.random()}`,
+                eyecatchAlt: entry.fields.images ? entry.fields.images?.fields.description : 'random eye catch image',
                 body: entry.fields.body || ''
             }
         }) || []

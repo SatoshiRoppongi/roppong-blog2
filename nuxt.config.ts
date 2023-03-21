@@ -5,6 +5,12 @@ const baseUrl: string = process.env.BASE_URL || 'a'
 // const domain = baseUrl.match(/^https?:\/{2,}(.*?)(?:\/|\?|#|$)/)[1]
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+    app: {
+        head: {
+            charset: 'utf-8',
+            viewport: 'width=device-width, initial-scale=1'
+        }
+    },
     // ssr: true,
     runtimeConfig: {
         // ctfCdaAccessToken: process.env.CTF_CDA_ACCESS_TOKEN ?? "",

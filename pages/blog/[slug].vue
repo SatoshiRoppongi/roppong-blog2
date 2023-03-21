@@ -40,7 +40,7 @@ useHead({
     <div class="info" v-if="blogPost?.createdAt?.YearMonthDayJP !== blogPost?.updatedAt?.YearMonthDayJP">
         更新日: {{ blogPost?.updatedAt?.YearMonthDayJP}}
     </div>
-    <el-image :src="blogPost?.eyecatchUrl" lazy class="eyecatch-img"/>
+    <el-image :src="blogPost?.eyecatchUrl" :alt="blogPost?.eyecatchAlt" lazy class="eyecatch-img"/>
     <template>
         <!--
           <adsbygoogle ad-slot="7309254084" />

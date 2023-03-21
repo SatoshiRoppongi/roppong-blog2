@@ -37,7 +37,7 @@ const socialInfoList = [
         <el-row :gutter="30">
             <el-col v-for="(info, i) in socialInfoList" :span="6" :key="i">
                 <a :href="info.linkTo">
-                    <el-image :src="info.imgSrc" />
+                    <el-image :src="`/${info.imgSrc}`" alt="profile image(me)" />
                 </a>
             </el-col>
         </el-row>

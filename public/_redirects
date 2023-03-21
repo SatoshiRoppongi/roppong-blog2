@@ -1,0 +1,5 @@
+http://roppong.com/* https://www.roppong.com/:splat 301!
+http://www.roppong.com/* https://www.roppong.com/:splat 301!
+http://roppong.com/blog/* https://www.roppong.com/blog/:splat 301!
+https://roppong.com/* https://www.roppong.com/:splat 301!
+https://roppong.com/blog/* https://www.roppong.com/blog/:splat 301!
