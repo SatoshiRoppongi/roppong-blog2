@@ -27,7 +27,7 @@ const socialInfoList = [
 
 <template>
     <el-card class="card">
-        <el-image class="img" :src="imageUrl" />
+        <el-image class="img" alt="my profile picture" :src="imageUrl" />
         <h2>ろっぽん</h2>
         <p class="profiletext">
             システムエンジニアです。主にアプトプットの練習としてこちらのブログで自由気ままに発信しています。
