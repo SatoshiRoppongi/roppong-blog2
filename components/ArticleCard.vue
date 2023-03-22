@@ -39,6 +39,7 @@ const postIntro = computed(() => {
         </nuxt-link>
         <el-image
         :src="blogInfo.eyecatchUrl"
+        :alt="blogInfo.eyecatchAlt"
         class="eyecatch-img"
         />
         <div class="article-body" v-html="$mdRenderer.render(postIntro || '')" />
