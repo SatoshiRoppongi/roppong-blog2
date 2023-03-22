@@ -147,7 +147,7 @@ export const useContentfulStore = defineStore('contents', () => {
 
     // store.blogPostImageのgetter
     const getBlogPostImage = computed(() => {
-        return store.blogPostImage?.items[0].fields.image?.fields.file.url
+        return 'https:' + store.blogPostImage?.items[0].fields.image?.fields.file.url
     })
 
     // サイドバーのアーカイブで利用

@@ -29,7 +29,8 @@ export default defineNuxtConfig({
         '@pinia/nuxt',
         '@element-plus/nuxt',
         'nuxt-simple-sitemap',
-        '@nuxtjs/google-adsense'
+        '@nuxtjs/google-adsense',
+        '@nuxt/image-edge'
     ],
     css: ['/assets/style.css'],
     sitemap: {
@@ -40,5 +41,5 @@ export default defineNuxtConfig({
         pageLevelAds: false,
         analyticsUacct: process.env.GA_TRACKING_ID, // アナリティクスと連携する場合のみ必要
         // analyticsDomainName: domain, // アナリティクスと連携する場合のみ必要
-    }
+    },
 })

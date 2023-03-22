@@ -27,7 +27,13 @@ const socialInfoList = [
 
 <template>
     <el-card class="card">
-        <el-image class="img" alt="my profile picture" :src="imageUrl" />
+        <nuxt-img
+            alt="my profile picture"
+            :src="imageUrl"
+            quality="70"
+            sized="md:100% lg:500px"
+            class="eyecatch-img"
+            />
         <h2>ろっぽん</h2>
         <p class="profiletext">
             システムエンジニアです。主にアプトプットの練習としてこちらのブログで自由気ままに発信しています。
@@ -37,7 +43,13 @@ const socialInfoList = [
         <el-row :gutter="30">
             <el-col v-for="(info, i) in socialInfoList" :span="6" :key="i">
                 <a :href="info.linkTo">
-                    <el-image :src="`/${info.imgSrc}`" alt="profile image(me)" />
+                    <nuxt-img
+                        :src="`/${info.imgSrc}`"
+                        quality="70"
+                        sized="md:100% lg:500px"
+                        alt="profile image(me)"
+                        class="eyecatch-img"
+                        />
                 </a>
             </el-col>
         </el-row>
@@ -53,10 +65,6 @@ const socialInfoList = [
 }
 .profiletext {
     text-align: left;
-}
-
-.img {
-    border-radius: 50%;
 }
 
 .button {

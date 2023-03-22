@@ -37,9 +37,11 @@ const postIntro = computed(() => {
           {{ blogInfo.categoryName }}
           </el-tag>
         </nuxt-link>
-        <el-image
+        <nuxt-img
         :src="blogInfo.eyecatchUrl"
         :alt="blogInfo.eyecatchAlt"
+        quality="70"
+        sized="md:100% lg:500px"
         class="eyecatch-img"
         />
         <div class="article-body" v-html="$mdRenderer.render(postIntro || '')" />
