@@ -12,7 +12,7 @@
                     </el-main>
                     <el-backtop :right="100" :bottom="100" />
                 </el-container>
-                <el-aside width="350px"> 
+                <el-aside class="aside" width="350px"> 
                     <Sidebar />
                 </el-aside>
             </el-container>
@@ -47,5 +47,21 @@
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
+}
+
+@media screen and (max-width: 1200px) {
+    .main {
+        display: block;
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+    .main .contents {
+        width: 100%;
+        margin:  0 auto;
+    }
+    .main .aside {
+        width: 100%;
+        margin: 0 auto;
+    }
 }
 </style>

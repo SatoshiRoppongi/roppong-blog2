@@ -21,7 +21,10 @@ const useFunction = props.groupType === 'archive' ? groupByYearMonth:  getConten
 
 </script>
 <template>
+    <!--
     <el-card class="box-card" body-style="{witdh: 480px}">
+    -->
+    <el-card class="box-card">
         <template #header>
             <div class="card-header">
                 <span> {{ groupName }}</span>
