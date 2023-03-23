@@ -30,7 +30,8 @@ export default defineNuxtConfig({
         '@element-plus/nuxt',
         'nuxt-simple-sitemap',
         '@nuxtjs/google-adsense',
-        '@nuxt/image-edge'
+        '@nuxt/image-edge',
+        '@kevinmarrec/nuxt-pwa'
     ],
     css: ['/assets/style.css'],
     sitemap: {

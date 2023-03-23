@@ -9,6 +9,7 @@
     "contentful-typescript-codegen": "contentful-typescript-codegen --output @types/generated/contentful.d.ts"
   },
   "devDependencies": {
+    "@kevinmarrec/nuxt-pwa": "^0.17.0",
     "@nuxt/image-edge": "^1.0.0-27990059.c3f31ce",
     "@nuxtjs/eslint-config": "^12.0.0",
     "@types/node": "^18.13.0",

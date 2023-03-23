@@ -41,8 +41,9 @@ const postIntro = computed(() => {
         :src="blogInfo.eyecatchUrl"
         :alt="blogInfo.eyecatchAlt"
         quality="70"
-        sized="md:100% lg:500px"
+        sized="sm:100vw md:50vw lg:400px"
         class="eyecatch-img"
+        format="webp"
         />
         <div class="article-body" v-html="$mdRenderer.render(postIntro || '')" />
         <div style="padding: 14px">

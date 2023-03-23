@@ -31,8 +31,9 @@ const socialInfoList = [
             alt="my profile picture"
             :src="imageUrl"
             quality="70"
-            sized="md:100% lg:500px"
+            sized="sm:100vw md:50vw lg:400px"
             class="eyecatch-img"
+            format="webp"
             />
         <h2>ろっぽん</h2>
         <p class="profiletext">
@@ -46,9 +47,10 @@ const socialInfoList = [
                     <nuxt-img
                         :src="`/${info.imgSrc}`"
                         quality="70"
-                        sized="md:100% lg:500px"
+                        sized="sm:100vw md:50vw lg:400px"
                         alt="profile image(me)"
                         class="eyecatch-img"
+                        format="webp"
                         />
                 </a>
             </el-col>

@@ -46,7 +46,8 @@ useHead({
         lazy
         class="eyecatch-img"
         quality="70"
-        sized="md:100% lg:500px"
+        sized="sm:100vw md:50vw lg:400px"
+        format="webp"
     />
     <template>
         <!--
