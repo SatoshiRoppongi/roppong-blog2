@@ -43,4 +43,13 @@ export default defineNuxtConfig({
         analyticsUacct: process.env.GA_TRACKING_ID, // アナリティクスと連携する場合のみ必要
         // analyticsDomainName: domain, // アナリティクスと連携する場合のみ必要
     },
+    pwa: {
+        meta: {
+            title: 'roppong blog',
+            author: 'Satoshi Roppongi'
+        },
+        manifest: {
+            name: 'roppong blog',
+        }
+    }
 })
