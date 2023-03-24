@@ -1,7 +1,7 @@
 <template>
     <section class="main">
         <div class="video-box overray">
-            <video class="video" src="landing.mp4" poster="landing_page_img.png" autoplay loop muted />
+            <video class="video" src="/landing.mp4" poster="/landing_page_img.png" autoplay loop muted />
         </div>
         <div class="text-box">
             <h1>こんにちは<br>roppong.com</h1>
