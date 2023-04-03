@@ -1,31 +1,27 @@
 <template>
-    <div class="common-layout">
-        <ClientOnly>
-            <el-container>
-                <el-header height="150px">
-                    <h1>roppong blog</h1>
-                    <Navbar />
-                </el-header>
-                <el-container class="main">
-                    <el-container class="contents">
-                        <el-main>
-                            <slot />
-                        </el-main>
-                        <el-backtop :right="100" :bottom="100" />
-                    </el-container>
-                    <el-aside class="aside" width="350px"> 
-                        <Sidebar />
-                    </el-aside>
-                </el-container>
-                <el-footer class="footer" height="150px">
-                    <p class="copyright">
-                    (c) 2023 Satoshi Roppongi
-                    </p>
-
-                </el-footer>
+    <el-container>
+        <el-header height="150px">
+            <h1>roppong blog</h1>
+            <Navbar />
+        </el-header>
+        <el-container class="main">
+            <el-container class="contents">
+                <el-main>
+                    <slot />
+                </el-main>
+                <el-backtop :right="100" :bottom="100" />
             </el-container>
-        </ClientOnly>
-    </div>
+            <el-aside class="aside" width="350px"> 
+                <Sidebar />
+            </el-aside>
+        </el-container>
+        <el-footer class="footer" height="150px">
+            <p class="copyright">
+            (c) 2023 Satoshi Roppongi
+            </p>
+
+        </el-footer>
+    </el-container>
 </template>
 <style scoped>
 .main {
