@@ -18,7 +18,7 @@
 </template>
 <script setup>
 definePageMeta({
-    layout: "empty",
+    layout: false,
 })
 </script>
 <style scoped>
