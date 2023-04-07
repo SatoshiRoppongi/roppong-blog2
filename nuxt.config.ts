@@ -37,12 +37,14 @@ export default defineNuxtConfig({
     sitemap: {
         hostname: 'https://www.roppong.com',
     },
+    /*
     'google-adsense': {
         id: process.env.GA_ADSENSE_ID,
         pageLevelAds: false,
         analyticsUacct: process.env.GA_TRACKING_ID, // アナリティクスと連携する場合のみ必要
         // analyticsDomainName: domain, // アナリティクスと連携する場合のみ必要
     },
+    */
     pwa: {
         meta: {
             title: 'roppong blog',
