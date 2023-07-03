@@ -1,5 +1,7 @@
 <script setup lang="ts">
-import { BlogPost } from '~~/stores/contentful';
+import { BlogPost, useContentfulStore } from '~~/stores/contentful';
+const {store, toRibbit} = useContentfulStore()
+
 
 const { $mdRenderer } = useNuxtApp()
 
@@ -30,11 +32,11 @@ const postIntro = computed(() => {
           <span v-if="blogInfo.createdAt?.YearMonthDayJP !== blogInfo.updatedAt?.YearMonthDayJP">(更新日:{{ blogInfo.updatedAt?.YearMonthDayJP }})</span>
         </div>
         <h2>
-          <nuxt-link :to="`/blog/${blogInfo.slug}`" class="c-p"> {{ blogInfo.title }} </nuxt-link>
+          <nuxt-link :to="`/blog/${blogInfo.slug}`" class="c-p"> {{ store.isRibbit ? toRibbit(blogInfo.title || '') : blogInfo.title }} </nuxt-link>
         </h2>
         <nuxt-link :to="`/blog/category/${blogInfo.categorySlug}`" class="c-p">
           <el-tag class="category">
-          {{ blogInfo.categoryName }}
+          {{ store.isRibbit ? toRibbit(blogInfo.categoryName || '') : blogInfo.categoryName }}
           </el-tag>
         </nuxt-link>
         <nuxt-img
@@ -45,11 +47,11 @@ const postIntro = computed(() => {
         class="eyecatch-img"
         format="webp"
         />
-        <div class="article-body" v-html="$mdRenderer.render(postIntro || '')" />
+        <div class="article-body" v-html="store.isRibbit ? toRibbit($mdRenderer.render(postIntro || '')) : $mdRenderer.render(postIntro || '')" />
         <div style="padding: 14px">
             <div class="bottom">
               <nuxt-link :to="`/blog/${blogInfo.slug}`" class="c-p">
-                  <el-button text class="button">続きを見る</el-button>
+                  <el-button text class="button">{{store.isRibbit ? 'ribbit more' : '続きを見る' }}</el-button>
               </nuxt-link>
             </div>
         </div>

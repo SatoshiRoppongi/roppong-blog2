@@ -1,7 +1,7 @@
 <template>
     <el-container>
         <el-header height="150px">
-            <h1>roppong blog</h1>
+            <h1>{{store.isRibbit ? 'ribbit blog' : 'roppong blog'}}</h1>
             <Navbar />
         </el-header>
         <el-container class="main">
@@ -9,6 +9,16 @@
                 <el-main>
                     <slot />
                 </el-main>
+                  <el-switch
+                    v-model="store.isRibbit"
+                    class="ml-2 switch"
+                    inline-prompt
+                    style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949"
+                    active-text="日本語翻訳に切り替える"
+                    inactive-text="ribbit ribbit"
+                    size="large"
+                />
+
                 <el-backtop :right="100" :bottom="100" />
             </el-container>
             <el-aside class="aside" width="350px"> 
@@ -23,6 +33,14 @@
         </el-footer>
     </el-container>
 </template>
+<script setup lang="ts">
+
+import { useContentfulStore } from "~~/stores/contentful"
+const { store } = useContentfulStore();
+console.log('teeeee')
+// const isRibbit = ref(true)
+// const isRibbit = ref(true)
+</script>
 <style scoped>
 .main {
     margin-left: 200px;
@@ -45,6 +63,12 @@
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
+}
+
+.switch {
+    position: fixed;
+    left: 0;
+    margin-left: 20px;
 }
 
 @media screen and (max-width: 1200px) {
