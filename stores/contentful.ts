@@ -47,14 +47,8 @@ type Optional = "stringifySafe" |  "toPlainObject" | "update"
 type ExtractContentType<T1, T2> = T2 extends ExtraInfo<T1> ? FlattenEntry<T2> : never
 
 type Contents = {
-    [K in CONTENT_TYPE]: Omit<EntryCollection<ExtractContentType<K, IEntry>>, Optional> | undefined
+[K in CONTENT_TYPE]: Omit<EntryCollection<ExtractContentType<K, IEntry>>, Optional> | undefined
 };
-
-type IsRibbit = {
-    isRibbit: boolean
-};
-
-type ContentsExtended = Contents & IsRibbit;
 
 type FlattenEntry<T> = T extends Entry<infer U> ? U : never;
 
@@ -65,7 +59,7 @@ export const useContentfulStore = defineStore('contents', () => {
      * State
      */
 
-    const store = reactive<ContentsExtended>({
+    const store = reactive<Contents>({
         // todo: もっと簡潔に書けないか
         blogPost: undefined,
         blogPostImage: undefined,
@@ -78,11 +72,8 @@ export const useContentfulStore = defineStore('contents', () => {
         lesson: undefined,
         lessonCodeSnippets: undefined,
         lessonCopy: undefined,
-        lessonImage: undefined,
-        isRibbit: true
+        lessonImage: undefined
     })
-    // const isRibbit = ref(true)
-
     
     /**
      * Getters
@@ -156,12 +147,7 @@ export const useContentfulStore = defineStore('contents', () => {
 
     // store.blogPostImageのgetter
     const getBlogPostImage = computed(() => {
-        console.log('tettest')
-        console.log(store.blogPostImage?.items)
-        return [
-            'https:' + store.blogPostImage?.items[0].fields.image?.fields.file.url,
-            'https:' + store.blogPostImage?.items[1].fields.image?.fields.file.url
-        ]
+        return 'https:' + store.blogPostImage?.items[0].fields.image?.fields.file.url
     })
 
     // サイドバーのアーカイブで利用
@@ -204,62 +190,6 @@ export const useContentfulStore = defineStore('contents', () => {
         }
     }
 
-    const toRibbit = (htmlString: string) => {
-
-        let replacedHtmlString = ''
-
-        const ribbitDict = [
-            'ribbit',
-            'Ribbit!',
-            'RIBBIT',
-            'rrrrrr',
-            'rbbbbb',
-            'ririririri',
-            'ribbit?',
-            '?????',
-            'f*ckin',
-            '!!!!',
-            'rr',
-            'rb',
-            "m('~')m"
-        ]
-
-
-        // 一時的な要素を作成してHTML文字列を挿入
-        if (typeof document !== 'undefined') {
-        const tempElement = document.createElement("div");
-        const numOfString = htmlString.length / 1000
-        tempElement.innerHTML = htmlString;
-
-        // テキストノードを "ribbit" に置換
-        function replaceNonTagTextWithRibbit(element: any) {
-
-            if (element.nodeType === Node.TEXT_NODE) {
-                let ribbitString = ''
-                for (let i = 0; i < numOfString; i++) {
-                    ribbitString += ribbitDict[Math.floor(Math.random() * ribbitDict.length)] + ' '
-
-                }
-                element.textContent = ribbitString;
-            } else {
-                for (let i = 0; i < element.childNodes.length; i++) {
-                    replaceNonTagTextWithRibbit(element.childNodes[i]);
-                }
-            }
-        }
-
-        // テキストノードの置換を実行
-        replaceNonTagTextWithRibbit(tempElement);
-        replacedHtmlString = tempElement.innerHTML;
-
-        }
-
-        // 置換後のHTML文字列を取得
-
-        return replacedHtmlString;
-
-    }
-
 
     /**
      * Actions
@@ -285,7 +215,6 @@ export const useContentfulStore = defineStore('contents', () => {
         getBlogPostsFilteredByYearMonth,
         groupByYearMonth,
         getBlogPostImage,
-        toRibbit,
         getContents
     }
 

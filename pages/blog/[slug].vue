@@ -4,7 +4,7 @@ import { useContentfulStore } from "~~/stores/contentful"
 const { $mdRenderer } = useNuxtApp()
 const route = useRoute()
 
-const { getContentsSummaries, groupByYearMonth, store, getBlogPosts, getBlogPostsRange, getBlogPostsFilteredByCategory, getBlogPostsFilteredByYearMonth, toRibbit} = useContentfulStore()
+const { getContentsSummaries, groupByYearMonth, store, getBlogPosts, getBlogPostsRange, getBlogPostsFilteredByCategory, getBlogPostsFilteredByYearMonth} = useContentfulStore()
 
 const blogPost = getBlogPosts.find(post => post.slug === route.params.slug)
 
@@ -21,11 +21,10 @@ useHead({
         }
     ]
 })
-
 </script>
 <template>
     <h1 class="h1Text">
-        {{ store.isRibbit ? toRibbit(blogPost?.title || '') : blogPost?.title || '' }}
+        {{ blogPost?.title }}
     </h1>
     <div class="info">
         記事カテゴリ
@@ -56,7 +55,7 @@ useHead({
         -->
     </template>
     <div>
-        <div class="contents-html" v-html="store.isRibbit ? toRibbit($mdRenderer.render(blogPost?.body || '')) : $mdRenderer.render(blogPost?.body || '')" />
+        <div class="contents-html" v-html="$mdRenderer.render(blogPost?.body || '')" />
     </div>
     <template>
         <!--

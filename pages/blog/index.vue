@@ -3,7 +3,7 @@ import { CONTENT_TYPE } from "~~/@types/generated/contentful"
 import { useContentfulStore } from "~~/stores/contentful"
 
 // getcontentsSummariesとgetBlogPostsは統合できるのでは？もっというとstoreも
-const { getContentsSummaries, groupByYearMonth, store, toRibbit, getBlogPosts, getBlogPostsRange, getBlogPostsFilteredByCategory, getBlogPostsFilteredByYearMonth} = useContentfulStore()
+const { getContentsSummaries, groupByYearMonth, store, getBlogPosts, getBlogPostsRange, getBlogPostsFilteredByCategory, getBlogPostsFilteredByYearMonth} = useContentfulStore()
 
 const route = useRoute()
 
@@ -83,7 +83,7 @@ useHead({
             <el-icon>
                 <component v-bind:is="$iconComponent(lastSlug)" />
             </el-icon>
-            {{ store.isRibbit ? toRibbit(h1Text || '') : h1Text }}
+            {{ h1Text }}
             <el-tag size="large"> {{ blogPostsRange.length }}件</el-tag>
         </h1>
         <div class="card" v-for="(blogPost, i) in blogPostsRange" :key="i">

@@ -15,7 +15,7 @@ const slugBase = computed(() => {
 
 })
 
-const { getContentsSummaries, groupByYearMonth, store, toRibbit} = useContentfulStore()
+const { getContentsSummaries, groupByYearMonth} = useContentfulStore()
 
 const useFunction = props.groupType === 'archive' ? groupByYearMonth:  getContentsSummaries
 
@@ -27,7 +27,7 @@ const useFunction = props.groupType === 'archive' ? groupByYearMonth:  getConten
     <el-card class="box-card">
         <template #header>
             <div class="card-header">
-                <span> {{ store.isRibbit ? toRibbit(groupName || '') : groupName }}</span>
+                <span> {{ groupName }}</span>
             </div>
         </template>
         <div v-for="(info, index) in useFunction(contentType, length)" :key="index">
@@ -36,7 +36,7 @@ const useFunction = props.groupType === 'archive' ? groupByYearMonth:  getConten
                 <el-icon v-if="contentType === 'category' && info.slug">
                     <component v-bind:is="$iconComponent(info.slug)" />
                 </el-icon>
-                    {{ store.isRibbit ? toRibbit(info.title || '') : info.title }} 
+                    {{ info.title }} 
             <span class="flex-grow" />
             <el-tag v-if="info.count" class="tag"> {{ info.count }} </el-tag>
             </NuxtLink>
