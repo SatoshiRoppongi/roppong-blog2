@@ -2,22 +2,23 @@ version: 2
 jobs:
   deploy: # ジョブ名
     docker:
-      - image: cimg/node:18.14.0 # ジョブ実行環境のDockerイメージを記述
+      - image: cimg/node:18.14.0 # 実行環境
+    environment:
+      GOOGLE_APPLICATION_CREDENTIALS: /home/circleci/firebase-key.json
     steps:
       - checkout # ソースコードのチェックアウト
       - run:
-          name: yarn install
+          name: Install dependencies
           command: yarn install
       - run:
           name: Set up Firebase credentials
           command: |
-            echo $FIREBASE_SERVICE_ACCOUNT | base64 --decode > ${HOME}/firebase-key.json
-            export GOOGLE_APPLICATION_CREDENTIALS="${HOME}/firebase-key.json"
+            echo $FIREBASE_SERVICE_ACCOUNT | base64 --decode > /home/circleci/firebase-key.json
       # - run:
-      #     name: functions package install
+      #     name: Functions package install
       #     command: cd functions/ && yarn install
       - run:
-          name: generate
+          name: Generate static files
           command: yarn run generate
       - run:
           name: Deploy to Firebase
@@ -27,4 +28,4 @@ workflows:
   version: 2
   deploy: # ワークフローの名前
     jobs:
-      - deploy # 上で定義したジョブを指定します
+      - deploy
