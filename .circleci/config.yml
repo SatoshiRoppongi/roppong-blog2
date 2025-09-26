@@ -8,6 +8,11 @@ jobs:
       - run:
           name: yarn install
           command: yarn install
+      - run:
+          name: Set up Firebase credentials
+          command: |
+            echo $FIREBASE_SERVICE_ACCOUNT | base64 --decode > ${HOME}/firebase-key.json
+            export GOOGLE_APPLICATION_CREDENTIALS="${HOME}/firebase-key.json"
       # - run:
       #     name: functions package install
       #     command: cd functions/ && yarn install
@@ -15,8 +20,8 @@ jobs:
           name: generate
           command: yarn run generate
       - run:
-          name: deploy to Firebase Hosting
-          command: ./node_modules/.bin/firebase deploy --token=$FIREBASE_TOKEN # プロジェクト上のfirebase-toolsでデプロイします
+          name: Deploy to Firebase
+          command: npx firebase deploy --project roppong-blog
 
 workflows:
   version: 2
